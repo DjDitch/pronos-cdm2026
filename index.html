@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pronos CdM 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E30613'/%3E%3Ctext x='16' y='23' font-size='22' text-anchor='middle' fill='%23FAE042' font-family='Arial' font-weight='900'%3E⚽%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+  <!-- ====================================================================
+       OVERLAY DE LOGIN (caché par défaut, affiché par app.js si pas authentifié)
+       ==================================================================== -->
+  <div id="auth-overlay" hidden>
+    <div class="auth-flag">
+      <div></div><div></div><div></div>
+    </div>
+    <div class="auth-card">
+      <div class="auth-mark">🇧🇪⚽</div>
+      <h1 class="auth-title">Pronos CdM 2026</h1>
+      <p class="auth-sub">Concours amical</p>
+      <div id="auth-error" class="auth-error" hidden>Mot de passe incorrect. Réessaie.</div>
+      <form id="auth-form" autocomplete="on">
+        <label for="auth-username">Identifiant</label>
+        <input type="text" id="auth-username" name="username" value="pronos" autocomplete="username" readonly />
+        <label for="auth-password">Mot de passe</label>
+        <input type="password" id="auth-password" name="password" autocomplete="current-password" required autofocus />
+        <button type="submit">Entrer dans le concours</button>
+      </form>
+      <p class="auth-hint">Le navigateur peut <strong>enregistrer le mot de passe</strong> pour les prochaines visites.</p>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       HEADER
+       ==================================================================== -->
+  <header class="header">
+    <div class="header-stripe"></div>
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark">🇧🇪</span>
+        <div>
+          <h1 class="brand-title">Pronos CdM 2026</h1>
+          <p class="brand-sub">Concours Pronos CdM 2026</p>
+        </div>
+      </div>
+      <div class="last-update">
+        <span class="label">Dernière mise à jour</span>
+        <span id="last-update-value" class="value">—</span>
+      </div>
+    </div>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="classement" role="tab">🏆 Classement</button>
+      <button class="tab"        data-tab="tournoi"    role="tab">⚽ Tournoi</button>
+      <button class="tab"        data-tab="pronos"     role="tab">👤 Pronos</button>
+      <button class="tab"        data-tab="bonus"      role="tab">🎯 Bonus</button>
+    </nav>
+  </header>
+
+  <!-- ====================================================================
+       VUES
+       ==================================================================== -->
+  <main class="main">
+
+    <!-- VUE CLASSEMENT -->
+    <section id="vue-classement" class="vue active">
+      <header class="vue-header">
+        <h2>Classement des participants</h2>
+        <p class="vue-sub">Total = matches de poules + classements + phase finale + bonus − pénalités</p>
+      </header>
+
+      <div class="phase-banner" id="phase-banner"></div>
+
+      <div id="classement-container"></div>
+    </section>
+
+    <!-- VUE TOURNOI -->
+    <section id="vue-tournoi" class="vue">
+      <header class="vue-header">
+        <h2>Le tournoi</h2>
+        <p class="vue-sub"><span id="nb-joues">—</span> matches joués sur 72 en phase de poules</p>
+      </header>
+
+      <h3 class="section-title">Classements par groupe</h3>
+      <div id="groupes-container" class="groupes-grid"></div>
+
+      <h3 class="section-title">Tous les matches</h3>
+      <div id="matches-container"></div>
+    </section>
+
+    <!-- VUE PRONOS -->
+    <section id="vue-pronos" class="vue">
+      <div id="pronos-locked" class="locked-screen" hidden>
+        <div class="lock-icon">🔒</div>
+        <h2>Les pronostics restent confidentiels</h2>
+        <p class="lock-text">
+          Les pronostics des participants seront révélés au <strong>coup d'envoi du 1<sup>er</sup> match</strong>,
+          le <strong>11 juin 2026 à 21h00</strong> (heure belge).
+        </p>
+        <p class="lock-text-small">Patience, ça arrive bientôt. ⚽</p>
+      </div>
+
+      <div id="pronos-content" hidden>
+        <header class="vue-header">
+          <h2>Pronostics d'un participant</h2>
+        </header>
+
+        <div class="controls">
+          <div class="control">
+            <label for="select-participant">Participant</label>
+            <select id="select-participant"></select>
+          </div>
+          <div class="control">
+            <label class="toggle-label">
+              <input type="checkbox" id="toggle-compare" checked>
+              <span>Comparer avec les résultats réels</span>
+            </label>
+          </div>
+        </div>
+
+        <h3 class="section-title">Scores pronostiqués (poules)</h3>
+        <div id="pronos-matches-container"></div>
+
+        <h3 class="section-title">Classements pronostiqués</h3>
+        <div id="pronos-classements-container" class="groupes-grid"></div>
+
+        <h3 class="section-title">Les 8 meilleurs 3<sup>es</sup> pronostiqués</h3>
+        <div id="pronos-3es-container" class="pills"></div>
+
+        <h3 class="section-title">Réponses aux questions bonus</h3>
+        <div id="pronos-bonus-container"></div>
+      </div>
+    </section>
+
+    <!-- VUE BONUS -->
+    <section id="vue-bonus" class="vue">
+      <header class="vue-header">
+        <h2>Questions bonus</h2>
+        <p class="vue-sub">Six pronostics subsidiaires pour pimenter le concours</p>
+      </header>
+      <div id="bonus-container"></div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       FOOTER
+       ==================================================================== -->
+  <footer class="footer">
+    <p>
+      Concours organisé par <strong>Didier</strong> ·
+      <a href="#" id="link-reglement">Règlement</a>
+    </p>
+    <p class="small">Que la meilleure pronostiqueuse, le meilleur pronostiqueur gagne ! 🍻 · <span style="opacity:0.4">v4</span></p>
+  </footer>
+
+  <script src="app.js?v=4"></script>
+</body>
+</html>
