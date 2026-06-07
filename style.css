@@ -1025,3 +1025,127 @@ select#select-participant {
 @media (min-width: 721px) {
   .classement-mobile { display: none; }
 }
+
+/* ============================================================================
+   DJDITCH — Header permanent + bulle de dialogue BD
+   ============================================================================ */
+
+#djditch-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+#djditch-header-img {
+  display: block;
+  border-radius: 50%;
+  cursor: default;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+}
+
+#djditch-header.speaking #djditch-header-img {
+  animation: djditchBounce 0.4s ease;
+}
+
+@keyframes djditchBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.12) rotate(-4deg); }
+  70%  { transform: scale(0.96) rotate(2deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+#djditch-bubble {
+  position: absolute;
+  right: 84px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #FAFAFA;
+  color: #0F0F0F;
+  border: 3px solid #0F0F0F;
+  border-radius: 14px;
+  padding: 10px 14px;
+  max-width: 260px;
+  min-width: 160px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  box-shadow: 3px 3px 0 #0F0F0F;
+  z-index: 200;
+  pointer-events: none;
+}
+
+#djditch-bubble::after {
+  content: '';
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 7px solid transparent;
+  border-left-color: #0F0F0F;
+}
+#djditch-bubble::before {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left-color: #FAFAFA;
+  z-index: 1;
+}
+
+#djditch-bubble[hidden] { display: none; }
+
+@keyframes bubblePop {
+  0%   { opacity: 0; transform: translateY(-50%) scale(0.85); }
+  60%  { transform: translateY(-50%) scale(1.04); }
+  100% { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+
+#djditch-bubble.bubble-in {
+  animation: bubblePop 0.25s ease forwards;
+}
+
+@keyframes bubbleFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+#djditch-bubble.bubble-out {
+  animation: bubbleFadeOut 0.4s ease forwards;
+}
+
+@media (max-width: 720px) {
+  #djditch-header-img { width: 48px; height: 48px; }
+
+  #djditch-bubble {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: 56px;
+    transform: translateX(-50%);
+    font-size: 12px;
+    max-width: 220px;
+  }
+
+  #djditch-bubble::after {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -14px;
+    transform: translateX(-50%);
+    border-left-color: transparent;
+    border-top-color: #0F0F0F;
+  }
+  #djditch-bubble::before {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border-left-color: transparent;
+    border-top-color: #FAFAFA;
+  }
+}

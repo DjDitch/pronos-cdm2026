@@ -191,6 +191,8 @@ function setTab(name) {
   $$('.vue').forEach(v => v.classList.toggle('active', v.id === `vue-${name}`));
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
+  djditchOnTabChange(name);
+
   if (name === 'tournoi') {
     playTripOnce();
   }
@@ -666,6 +668,171 @@ function renderBonus() {
   $('#bonus-container').innerHTML = `<div class="bonus-cards">${cards}</div>`;
 }
 
+
+/* --------------------------------------------------------------------------
+   DJDITCH — Bulle de dialogue dans le header
+   Répliques contextuelles, déclenchement aléatoire toutes les 45-90 secondes
+   -------------------------------------------------------------------------- */
+
+// Répliques par contexte
+// Les répliques dynamiques utilisent des tokens {premier} et {dernier}
+// remplacés en temps réel depuis DATA.concours.participants
+
+const DJDITCH_REPLIQUES = {
+  generiques: [
+    "Alors, on vérifie si on est meilleur que Claude IA ?",
+    "Tu consultes le classement une 3ème fois aujourd'hui ? La foi, ça se respecte.",
+    "Rappel : le hasard n'existe pas. Sauf quand tu gagnes.",
+    "Je te regarde. Je vois tout. Je juge.",
+  ],
+  classement: [
+    "Alors, on vérifie si on a rattrapé Claude IA ?",
+    "{dernier} est dernier. Minute de silence... ou pas. Ahahaha !",
+    "{premier} en tête. Pour l'instant... Mais le tournoi est long.",
+    "Les points de classement arrivent le 28 juin. D'ici là, souffrez en silence.",
+  ],
+  tournoi: [
+    "Regarde ces scores. Maintenant regarde tes pronos. Maintenant repleure.",
+    "Le Groupe G ? Belgique première, évidemment. T'as pas pronostiqué ça ? Traître.",
+    "Ah, t'as mis la France première du Groupe I ? Je vais faire semblant de ne pas avoir vu ça. À mort, la France !",
+  ],
+  pronos: [
+    "T'as pronostiqué Mbappé meilleur buteur ? Traître à ton sang !",
+    "Un score exact, c'est bien. C'est surtout de la chance, soyons honnêtes.",
+    "Deux scores exacts ? Soit tu es un génie, soit tu as triché. Je penche pour la 2ème option. Surtout si ChatGPT t'a aidé !",
+    "Regarder les pronos de tes concurrents à la recherche d'inspiration... C'est beau, l'humilité.",
+  ],
+  bonus: [
+    "Premier carton rouge : pas encore tombé. La violence, ça se mérite.",
+    "Meilleur buteur pronostiqué : Diogo Jota. Il joue plus dans ce tournoi. Ni dans aucun autre. Bravo. Tu t'es crashé comme lui !",
+    "Premier Belge remplacé... Dès la 12ème minute probablement. Connaissant Rudi Garcia !",
+    "Premier Belge à marquer de la tête ? Doku peut-être. Si De Bruyne lui fait la courte échelle !",
+  ],
+  connexion: [
+    "Ah, te voilà. On t'attendait. Enfin... Didier t'attendait. Moi, bof.",
+    "Mot de passe accepté. T'as quand même mis du temps.",
+  ],
+  inactivite: [
+    "Tu dors ? Le tournoi, lui, il dort pas.",
+  ],
+};
+
+// Durée d'affichage de la bulle en ms
+const BUBBLE_DISPLAY_MS   = 5000;
+// Intervalle minimum entre deux bulles en ms (45s)
+const BUBBLE_MIN_DELAY_MS = 45000;
+// Intervalle maximum (90s)
+const BUBBLE_MAX_DELAY_MS = 90000;
+
+let bubbleTimer      = null;  // timer de disparition de la bulle courante
+let nextBubbleTimer  = null;  // timer pour la prochaine bulle
+let bubbleShownOnce  = false; // bulle de connexion jouée ?
+
+function _pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function _resolveDynamic(text) {
+  if (!DATA || !DATA.concours || !DATA.concours.participants) return text;
+  const parts = DATA.concours.participants;
+  if (parts.length === 0) return text;
+  const premier = parts[0].nom;
+  const dernier = parts[parts.length - 1].nom;
+  return text.replace('{premier}', premier).replace('{dernier}', dernier);
+}
+
+function _buildPool(tab) {
+  // Mélange : 60% contextuelles, 40% génériques
+  const contextual = DJDITCH_REPLIQUES[tab] || [];
+  const generiques  = DJDITCH_REPLIQUES.generiques;
+  // On prend toutes les contextuelles + 2 génériques aléatoires
+  const pool = [...contextual];
+  for (let i = 0; i < 2; i++) pool.push(_pickRandom(generiques));
+  return pool;
+}
+
+function showBubble(text) {
+  const header = document.getElementById('djditch-header');
+  const bubble = document.getElementById('djditch-bubble');
+  const span   = document.getElementById('djditch-bubble-text');
+  if (!header || !bubble || !span) return;
+
+  // Annuler le timer de disparition en cours si une bulle est déjà visible
+  if (bubbleTimer) { clearTimeout(bubbleTimer); bubbleTimer = null; }
+
+  // Résoudre les tokens dynamiques
+  const resolved = _resolveDynamic(text);
+  span.textContent = resolved;
+
+  // Reset classes d'animation
+  bubble.classList.remove('bubble-in', 'bubble-out');
+  bubble.hidden = false;
+
+  // Force reflow pour relancer l'animation
+  void bubble.offsetWidth;
+  bubble.classList.add('bubble-in');
+  header.classList.add('speaking');
+
+  // Retirer la classe speaking après le bounce
+  setTimeout(() => header.classList.remove('speaking'), 400);
+
+  // Programmer la disparition
+  bubbleTimer = setTimeout(() => {
+    bubble.classList.remove('bubble-in');
+    bubble.classList.add('bubble-out');
+    bubble.addEventListener('animationend', () => {
+      bubble.hidden = true;
+      bubble.classList.remove('bubble-out');
+    }, { once: true });
+    bubbleTimer = null;
+  }, BUBBLE_DISPLAY_MS);
+}
+
+function scheduleNextBubble() {
+  if (nextBubbleTimer) clearTimeout(nextBubbleTimer);
+  const delay = BUBBLE_MIN_DELAY_MS + Math.random() * (BUBBLE_MAX_DELAY_MS - BUBBLE_MIN_DELAY_MS);
+  nextBubbleTimer = setTimeout(() => {
+    const pool = _buildPool(CURRENT_TAB);
+    showBubble(_pickRandom(pool));
+    scheduleNextBubble();
+  }, delay);
+}
+
+function initDjDitchHeader() {
+  // Bulle de connexion immédiate
+  const connexionMsg = _pickRandom(DJDITCH_REPLIQUES.connexion);
+  setTimeout(() => {
+    showBubble(connexionMsg);
+    bubbleShownOnce = true;
+    // Démarrer le cycle aléatoire après la bulle de connexion
+    scheduleNextBubble();
+  }, 1200);
+
+  // Inactivité : si pas de clic pendant 30s, DjDitch relance
+  let inactivityTimer = null;
+  function resetInactivity() {
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+      showBubble(_pickRandom(DJDITCH_REPLIQUES.inactivite));
+    }, 30000);
+  }
+  document.addEventListener('click', resetInactivity);
+  document.addEventListener('keydown', resetInactivity);
+  resetInactivity();
+}
+
+// Appelé depuis setTab() à chaque changement d'onglet
+function djditchOnTabChange(tab) {
+  if (!bubbleShownOnce) return; // pas encore initialisé
+  // 50% de chances de parler au changement d'onglet
+  if (Math.random() < 0.5) {
+    const pool = _buildPool(tab);
+    showBubble(_pickRandom(pool));
+    // Reprogrammer le prochain timer depuis maintenant
+    scheduleNextBubble();
+  }
+}
+
 /* --------------------------------------------------------------------------
    GO
    -------------------------------------------------------------------------- */
@@ -675,6 +842,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupLogin();
   } else {
     showSplash();
-    init();
+    init().then(() => initDjDitchHeader());
   }
 });

@@ -7,27 +7,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E30613'/%3E%3Ctext x='16' y='23' font-size='22' text-anchor='middle' fill='%23FAE042' font-family='Arial' font-weight='900'%3E⚽%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 
   <!-- ====================================================================
-       OVERLAY DE LOGIN (caché par défaut, affiché par app.js si pas authentifié)
+       OVERLAY DE LOGIN
        ==================================================================== -->
   <div id="auth-overlay" hidden>
     <div class="auth-flag">
       <div></div><div></div><div></div>
     </div>
-
-    <!-- DjDitch centré au-dessus du formulaire, visible pendant la saisie du mdp -->
     <div class="auth-djditch">
       <img id="djditch-login-gif"
            src="img/DjDitch-loop.gif"
            alt="DjDitch mascotte"
            width="180" height="180">
     </div>
-
     <div class="auth-card">
       <div class="auth-mark">🇧🇪⚽</div>
       <h1 class="auth-title">Pronos CdM 2026</h1>
@@ -45,25 +42,17 @@
   </div>
 
   <!-- ====================================================================
-       DJDITCH SPLASH — visible au chargement si déjà authentifié
-       Joue le loop 1x puis disparaît (géré par app.js)
+       DJDITCH SPLASH — visible au chargement si déjà authentifié, 1x puis disparaît
        ==================================================================== -->
   <div id="djditch-splash" hidden>
-    <img id="djditch-splash-gif"
-         src="img/DjDitch-loop.gif"
-         alt="DjDitch mascotte"
-         width="220" height="220">
+    <img src="img/DjDitch-loop.gif" alt="DjDitch mascotte" width="220" height="220">
   </div>
 
   <!-- ====================================================================
-       DJDITCH TRIP OVERLAY — déclenché au 1er clic sur l'onglet Tournoi
-       Joue DjDitch-trip.gif 1x (9s) puis disparaît (géré par app.js)
+       DJDITCH TRIP OVERLAY — 1er clic onglet Tournoi, 1x puis disparaît
        ==================================================================== -->
   <div id="djditch-trip-overlay" hidden>
-    <img id="djditch-trip-gif"
-         src=""
-         alt="DjDitch fait un croche-pied"
-         width="280" height="280">
+    <img id="djditch-trip-gif" src="" alt="DjDitch fait un croche-pied" width="280" height="280">
   </div>
 
   <!-- ====================================================================
@@ -79,6 +68,18 @@
           <p class="brand-sub">Concours Pronos CdM 2026</p>
         </div>
       </div>
+
+      <!-- DjDitch permanent dans le header avec bulle de dialogue -->
+      <div id="djditch-header" aria-hidden="true">
+        <div id="djditch-bubble" hidden>
+          <span id="djditch-bubble-text"></span>
+        </div>
+        <img id="djditch-header-img"
+             src="img/DjDitch-loop.gif"
+             alt="DjDitch"
+             width="72" height="72">
+      </div>
+
       <div class="last-update">
         <span class="label">Dernière mise à jour</span>
         <span id="last-update-value" class="value">—</span>
@@ -104,9 +105,7 @@
         <h2>Classement des participants</h2>
         <p class="vue-sub">Total = matches de poules + classements + phase finale + bonus − pénalités</p>
       </header>
-
       <div class="phase-banner" id="phase-banner"></div>
-
       <div id="classement-container"></div>
     </section>
 
@@ -116,10 +115,8 @@
         <h2>Le tournoi</h2>
         <p class="vue-sub"><span id="nb-joues">—</span> matches joués sur 72 en phase de poules</p>
       </header>
-
       <h3 class="section-title">Classements par groupe</h3>
       <div id="groupes-container" class="groupes-grid"></div>
-
       <h3 class="section-title">Tous les matches</h3>
       <div id="matches-container"></div>
     </section>
@@ -135,12 +132,10 @@
         </p>
         <p class="lock-text-small">Patience, ça arrive bientôt. ⚽</p>
       </div>
-
       <div id="pronos-content" hidden>
         <header class="vue-header">
           <h2>Pronostics d'un participant</h2>
         </header>
-
         <div class="controls">
           <div class="control">
             <label for="select-participant">Participant</label>
@@ -153,16 +148,12 @@
             </label>
           </div>
         </div>
-
         <h3 class="section-title">Scores pronostiqués (poules)</h3>
         <div id="pronos-matches-container"></div>
-
         <h3 class="section-title">Classements pronostiqués</h3>
         <div id="pronos-classements-container" class="groupes-grid"></div>
-
         <h3 class="section-title">Les 8 meilleurs 3<sup>es</sup> pronostiqués</h3>
         <div id="pronos-3es-container" class="pills"></div>
-
         <h3 class="section-title">Réponses aux questions bonus</h3>
         <div id="pronos-bonus-container"></div>
       </div>
@@ -187,9 +178,9 @@
       Concours organisé par <strong>Didier</strong> ·
       <a href="#" id="link-reglement">Règlement</a>
     </p>
-    <p class="small">Que la meilleure pronostiqueuse, le meilleur pronostiqueur gagne ! 🍻 · <span style="opacity:0.4">v5</span></p>
+    <p class="small">Que la meilleure pronostiqueuse, le meilleur pronostiqueur gagne ! 🍻 · <span style="opacity:0.4">v6</span></p>
   </footer>
 
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
