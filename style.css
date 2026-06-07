@@ -210,6 +210,7 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--white);
   position: relative;
   box-shadow: var(--shadow-lg);
+  overflow: visible;
 }
 
 .header-stripe {
@@ -223,7 +224,7 @@ button { font-family: inherit; cursor: pointer; }
 .header-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 24px 16px;
+  padding: 12px 24px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1039,9 +1040,10 @@ select#select-participant {
 
 #djditch-header-img {
   display: block;
-  border-radius: 50%;
+  border-radius: 0;
   cursor: default;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+  margin-bottom: -10px;  /* débordement léger vers le bas */
 }
 
 #djditch-header.speaking #djditch-header-img {
@@ -1057,7 +1059,7 @@ select#select-participant {
 
 #djditch-bubble {
   position: absolute;
-  right: 84px;
+  right: 90px;
   top: 50%;
   transform: translateY(-50%);
   background: #FAFAFA;
@@ -1118,7 +1120,7 @@ select#select-participant {
 }
 
 @media (max-width: 720px) {
-  #djditch-header-img { width: 48px; height: 48px; }
+  #djditch-header-img { width: 55px; height: 75px; }
 
   #djditch-bubble {
     right: auto;
