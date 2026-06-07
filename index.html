@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E30613'/%3E%3Ctext x='16' y='23' font-size='22' text-anchor='middle' fill='%23FAE042' font-family='Arial' font-weight='900'%3E⚽%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -19,6 +19,15 @@
     <div class="auth-flag">
       <div></div><div></div><div></div>
     </div>
+
+    <!-- DjDitch centré au-dessus du formulaire, visible pendant la saisie du mdp -->
+    <div class="auth-djditch">
+      <img id="djditch-login-gif"
+           src="img/DjDitch-loop.gif"
+           alt="DjDitch mascotte"
+           width="180" height="180">
+    </div>
+
     <div class="auth-card">
       <div class="auth-mark">🇧🇪⚽</div>
       <h1 class="auth-title">Pronos CdM 2026</h1>
@@ -33,6 +42,28 @@
       </form>
       <p class="auth-hint">Le navigateur peut <strong>enregistrer le mot de passe</strong> pour les prochaines visites.</p>
     </div>
+  </div>
+
+  <!-- ====================================================================
+       DJDITCH SPLASH — visible au chargement si déjà authentifié
+       Joue le loop 1x puis disparaît (géré par app.js)
+       ==================================================================== -->
+  <div id="djditch-splash" hidden>
+    <img id="djditch-splash-gif"
+         src="img/DjDitch-loop.gif"
+         alt="DjDitch mascotte"
+         width="220" height="220">
+  </div>
+
+  <!-- ====================================================================
+       DJDITCH TRIP OVERLAY — déclenché au 1er clic sur l'onglet Tournoi
+       Joue DjDitch-trip.gif 1x (9s) puis disparaît (géré par app.js)
+       ==================================================================== -->
+  <div id="djditch-trip-overlay" hidden>
+    <img id="djditch-trip-gif"
+         src=""
+         alt="DjDitch fait un croche-pied"
+         width="280" height="280">
   </div>
 
   <!-- ====================================================================
@@ -156,9 +187,9 @@
       Concours organisé par <strong>Didier</strong> ·
       <a href="#" id="link-reglement">Règlement</a>
     </p>
-    <p class="small">Que la meilleure pronostiqueuse, le meilleur pronostiqueur gagne ! 🍻 · <span style="opacity:0.4">v4</span></p>
+    <p class="small">Que la meilleure pronostiqueuse, le meilleur pronostiqueur gagne ! 🍻 · <span style="opacity:0.4">v5</span></p>
   </footer>
 
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

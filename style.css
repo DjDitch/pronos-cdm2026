@@ -7,6 +7,7 @@
   background: var(--black);
   color: var(--white);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px;
@@ -31,6 +32,16 @@
 .auth-flag div:nth-child(1) { background: var(--black);  flex: 1; }
 .auth-flag div:nth-child(2) { background: var(--yellow); flex: 1; }
 .auth-flag div:nth-child(3) { background: var(--red);    flex: 1; }
+
+/* DjDitch au-dessus du formulaire de login */
+.auth-djditch {
+  margin-bottom: 16px;
+  text-align: center;
+}
+.auth-djditch img {
+  border-radius: 50%;
+  box-shadow: 0 0 24px rgba(227,6,19,0.4);
+}
 
 .auth-card {
   background: var(--black-2);
@@ -909,6 +920,69 @@ select#select-participant {
 .footer .small { font-size: 11px; color: var(--gray-2); margin-top: 4px; }
 
 /* ============================================================================
+   DJDITCH — Splash accueil (utilisateur déjà authentifié)
+   ============================================================================ */
+
+#djditch-splash {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 0 8px;
+  background: var(--gray-5);
+}
+
+#djditch-splash[hidden] {
+  display: none;
+}
+
+#djditch-splash img {
+  display: block;
+  border-radius: 50%;
+  box-shadow: 0 0 32px rgba(227,6,19,0.25);
+}
+
+/* ============================================================================
+   DJDITCH — Trip overlay (onglet Tournoi, 1x par session)
+   Positionné en fixed, centré, fond semi-transparent
+   ============================================================================ */
+
+#djditch-trip-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,15,15,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900;
+  cursor: pointer;
+}
+
+#djditch-trip-overlay[hidden] {
+  display: none;
+}
+
+#djditch-trip-overlay img {
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 16px 64px rgba(0,0,0,0.6);
+  max-width: 90vw;
+  max-height: 80vh;
+}
+
+/* ============================================================================
+   ANIMATION FADEOUT — partagée par splash et trip overlay
+   ============================================================================ */
+
+@keyframes djditchFadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.92); }
+}
+
+.djditch-fadeout {
+  animation: djditchFadeOut 0.5s ease forwards;
+}
+
+/* ============================================================================
    RESPONSIVE
    ============================================================================ */
 @media (max-width: 720px) {
@@ -943,6 +1017,9 @@ select#select-participant {
   .bonus-cards { grid-template-columns: 1fr; }
 
   .controls { padding: 14px; gap: 14px; }
+
+  #djditch-splash img { width: 160px; height: 160px; }
+  #djditch-trip-overlay img { width: 240px; height: 240px; }
 }
 
 @media (min-width: 721px) {

@@ -40,8 +40,6 @@ function setupLogin() {
       try {
         localStorage.setItem(AUTH_STORAGE_KEY, 'yes');
       } catch (err) { /* mode privé navigateur : on continue quand même */ }
-      // Pas de reload (causerait un avertissement Safari sur les forms).
-      // On masque l'overlay et on lance l'app directement.
       overlay.hidden = true;
       init();
     } else {
@@ -52,7 +50,7 @@ function setupLogin() {
   });
 }
 
-let DATA = null;          // payload JSON complet
+let DATA = null;
 let CURRENT_TAB = 'classement';
 
 /* --------------------------------------------------------------------------
@@ -90,6 +88,62 @@ function tendance(sh, sa) {
 }
 
 /* --------------------------------------------------------------------------
+   MASCOTTE — DjDitch splash (page d'accueil, 1x au chargement)
+
+   Comportement :
+   - Si déjà authentifié : le splash apparaît centré SOUS le header,
+     le loop joue 1x (9s), puis le bloc disparaît en fondu.
+   - Si pas encore authentifié : le GIF est visible dans l'overlay de login
+     pendant la saisie — il disparaît avec l'overlay quand le mdp est validé.
+     Pas de splash supplémentaire dans ce cas.
+   -------------------------------------------------------------------------- */
+
+const DJDITCH_LOOP_DURATION_MS = 9000;  // mesuré : 9 secondes
+const DJDITCH_TRIP_DURATION_MS = 9000;  // mesuré : 9 secondes
+
+// Flag de session : DjDitch-trip ne se joue qu'une seule fois par session
+let tripPlayed = false;
+
+function showSplash() {
+  const splash = document.getElementById('djditch-splash');
+  if (!splash) return;
+  splash.hidden = false;
+
+  setTimeout(() => {
+    splash.classList.add('djditch-fadeout');
+    splash.addEventListener('animationend', () => {
+      splash.hidden = true;
+      splash.classList.remove('djditch-fadeout');
+    }, { once: true });
+  }, DJDITCH_LOOP_DURATION_MS);
+}
+
+/* --------------------------------------------------------------------------
+   MASCOTTE — DjDitch trip overlay (onglet Tournoi, 1x par session)
+   -------------------------------------------------------------------------- */
+
+function playTripOnce() {
+  if (tripPlayed) return;
+  tripPlayed = true;
+
+  const overlay = document.getElementById('djditch-trip-overlay');
+  const img     = document.getElementById('djditch-trip-gif');
+  if (!overlay || !img) return;
+
+  img.src = 'img/DjDitch-trip.gif';
+  overlay.hidden = false;
+
+  setTimeout(() => {
+    overlay.classList.add('djditch-fadeout');
+    overlay.addEventListener('animationend', () => {
+      overlay.hidden = true;
+      overlay.classList.remove('djditch-fadeout');
+      img.src = '';
+    }, { once: true });
+  }, DJDITCH_TRIP_DURATION_MS);
+}
+
+/* --------------------------------------------------------------------------
    Bootstrap : charger le JSON puis rendre
    -------------------------------------------------------------------------- */
 
@@ -108,16 +162,9 @@ async function init() {
     return;
   }
 
-  // Dernière maj dans le header
   $('#last-update-value').textContent = formatDateFr(DATA.meta.generated_at);
-
-  // Bandeau de phase
   renderPhaseBanner();
-
-  // Setup des onglets
   $$('.tab').forEach(t => t.addEventListener('click', () => setTab(t.dataset.tab)));
-
-  // Rendu initial des 4 vues
   renderClassement();
   renderTournoi();
   renderPronos();
@@ -131,10 +178,10 @@ function renderPhaseBanner() {
   const total  = DATA.meta.nb_matches_total;
 
   let label;
-  if (phase === 'poules')        label = `Phase de poules — ${joues}/${total} matches joués`;
+  if (phase === 'poules')            label = `Phase de poules — ${joues}/${total} matches joués`;
   else if (phase === 'phase_finale') label = `Phase à élimination directe`;
-  else if (phase === 'termine')  label = `Tournoi terminé`;
-  else                           label = phase;
+  else if (phase === 'termine')      label = `Tournoi terminé`;
+  else                               label = phase;
   banner.textContent = label;
 }
 
@@ -143,6 +190,10 @@ function setTab(name) {
   $$('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
   $$('.vue').forEach(v => v.classList.toggle('active', v.id === `vue-${name}`));
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (name === 'tournoi') {
+    playTripOnce();
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -160,7 +211,6 @@ function renderClassement() {
     return;
   }
 
-  // Version desktop (table)
   const tableHtml = `
     <table class="classement-table">
       <thead>
@@ -181,7 +231,6 @@ function renderClassement() {
       </tbody>
     </table>`;
 
-  // Version mobile (cartes)
   const cardsHtml = `
     <div class="classement-mobile">
       ${parts.map(p => renderCard(p)).join('')}
@@ -246,38 +295,54 @@ function renderCard(p) {
    -------------------------------------------------------------------------- */
 
 function renderTournoi() {
-  $('#nb-joues').textContent = DATA.meta.nb_matches_joues;
+  const groupesContainer = $('#groupes-container');
+  const matchesContainer = $('#matches-container');
+  const nbJouesSpan      = $('#nb-joues');
 
-  // Cartes par groupe
   const groupes = DATA.tournoi.groupes;
-  $('#groupes-container').innerHTML = groupes.map(g => renderGroupeCard(g)).join('');
-
-  // Liste des matches groupée par groupe
   const matches = DATA.tournoi.matches;
-  const byGroupe = {};
+  const nbJoues = matches.filter(m => m.joue).length;
+
+  nbJouesSpan.textContent = nbJoues;
+
+  groupesContainer.innerHTML = groupes.map(g => renderGroupeCard(g)).join('');
+
+  const matchesParGroupe = {};
   matches.forEach(m => {
-    if (!byGroupe[m.groupe]) byGroupe[m.groupe] = [];
-    byGroupe[m.groupe].push(m);
+    if (!matchesParGroupe[m.groupe]) matchesParGroupe[m.groupe] = [];
+    matchesParGroupe[m.groupe].push(m);
   });
 
-  const blocs = Object.keys(byGroupe).sort().map(g => `
-    <div class="matches-groupe-bloc">
-      <div class="matches-groupe-titre">Groupe ${g}</div>
-      ${byGroupe[g].map(m => renderMatchRow(m)).join('')}
-    </div>
-  `).join('');
-
-  $('#matches-container').innerHTML = blocs;
+  matchesContainer.innerHTML = Object.keys(matchesParGroupe).sort().map(g => {
+    const bloc = matchesParGroupe[g].map(m => renderMatchRow(m)).join('');
+    return `
+      <div class="matches-groupe-bloc">
+        <div class="matches-groupe-titre">Groupe ${g}</div>
+        ${bloc}
+      </div>`;
+  }).join('');
 }
 
 function renderGroupeCard(g) {
-  const allPlayed = g.equipes.every(e => e.j === 3);
-  const someJoue  = g.equipes.some(e => e.j > 0);
-  const badge = allPlayed
-    ? '<span class="badge-joues">Terminé</span>'
-    : someJoue
-      ? '<span class="badge-joues">En cours</span>'
-      : '';
+  const joues = g.equipes.reduce((acc, e) => acc + e.j, 0) / 2;
+  const badge = joues > 0 ? `<span class="badge-joues">${joues}/6 joués</span>` : '';
+
+  const rows = g.equipes.map((e, i) => {
+    const qClass = i === 0 ? 'qualifie-1' : i === 1 ? 'qualifie-2' : i === 2 ? 'qualifie-3' : '';
+    return `
+      <tr class="${qClass}">
+        <td>${i + 1}</td>
+        <td class="team">${escapeHtml(e.equipe)}</td>
+        <td>${e.j}</td>
+        <td>${e.v}</td>
+        <td>${e.n}</td>
+        <td>${e.d}</td>
+        <td>${e.bp}</td>
+        <td>${e.bc}</td>
+        <td>${e.diff >= 0 ? '+' : ''}${e.diff}</td>
+        <td class="col-pts">${e.pts}</td>
+      </tr>`;
+  }).join('');
 
   return `
     <div class="groupe-card">
@@ -288,126 +353,105 @@ function renderGroupeCard(g) {
       <table class="groupe-table">
         <thead>
           <tr>
-            <th></th>
-            <th class="team">Équipe</th>
+            <th>#</th><th class="team">Équipe</th>
             <th>J</th><th>V</th><th>N</th><th>D</th>
             <th>Bp</th><th>Bc</th><th>Diff</th><th>Pts</th>
           </tr>
         </thead>
-        <tbody>
-          ${g.equipes.map((e, i) => `
-            <tr class="${i === 0 ? 'qualifie-1' : i === 1 ? 'qualifie-2' : i === 2 ? 'qualifie-3' : ''}">
-              <td>${e.rang}</td>
-              <td class="team">${escapeHtml(e.equipe)}</td>
-              <td>${e.j}</td><td>${e.v}</td><td>${e.n}</td><td>${e.d}</td>
-              <td>${e.bp}</td><td>${e.bc}</td><td>${e.diff > 0 ? '+' : ''}${e.diff}</td>
-              <td class="col-pts">${e.pts}</td>
-            </tr>
-          `).join('')}
-        </tbody>
+        <tbody>${rows}</tbody>
       </table>
     </div>`;
 }
 
 function renderMatchRow(m) {
+  let scoreHtml, homeClass = '', awayClass = '';
   if (m.joue) {
-    const home_w = m.score_home > m.score_away;
-    const away_w = m.score_away > m.score_home;
-    return `
-      <div class="match-row joue">
-        <span class="match-n">#${m.n}</span>
-        <span class="match-home ${home_w ? 'winner' : away_w ? 'loser' : ''}">${escapeHtml(m.home)}</span>
-        <span class="match-score">${m.score_home} - ${m.score_away}</span>
-        <span class="match-away ${away_w ? 'winner' : home_w ? 'loser' : ''}">${escapeHtml(m.away)}</span>
-      </div>`;
+    scoreHtml = `<span class="match-score">${m.score_home} – ${m.score_away}</span>`;
+    if (m.score_home > m.score_away)      { homeClass = 'winner'; awayClass = 'loser'; }
+    else if (m.score_away > m.score_home) { homeClass = 'loser';  awayClass = 'winner'; }
   } else {
-    return `
-      <div class="match-row">
-        <span class="match-n">#${m.n}</span>
-        <span class="match-home">${escapeHtml(m.home)}</span>
-        <span class="match-score empty">vs</span>
-        <span class="match-away">${escapeHtml(m.away)}</span>
-      </div>`;
+    scoreHtml = `<span class="match-score empty">vs</span>`;
   }
+  return `
+    <div class="match-row ${m.joue ? 'joue' : ''}">
+      <span class="match-n">#${m.n}</span>
+      <span class="match-home ${homeClass}">${escapeHtml(m.home)}</span>
+      ${scoreHtml}
+      <span class="match-away ${awayClass}">${escapeHtml(m.away)}</span>
+    </div>`;
 }
 
 /* --------------------------------------------------------------------------
    VUE PRONOS
    -------------------------------------------------------------------------- */
 
+const REVEAL_KEY = 'reveal_pronos_at';
+
 function isPronosRevealed() {
-  const reveal = DATA.meta.reveal_pronos_at;
-  if (!reveal) return true;        // si pas défini, on considère ouvert
-  return new Date() >= new Date(reveal);
+  const at = DATA.meta[REVEAL_KEY];
+  if (!at) return false;
+  return new Date() >= new Date(at);
 }
 
 function renderPronos() {
-  const locked  = $('#pronos-locked');
-  const content = $('#pronos-content');
+  const lockedScreen = $('#pronos-locked');
+  const content      = $('#pronos-content');
 
   if (!isPronosRevealed()) {
-    locked.hidden = false;
+    lockedScreen.hidden = false;
     content.hidden = true;
     return;
   }
-  locked.hidden = true;
+
+  lockedScreen.hidden = true;
   content.hidden = false;
 
   const pronos = DATA.concours.pronostics || {};
   const participants = DATA.concours.participants;
-
-  // Remplit le select
   const select = $('#select-participant');
+
   select.innerHTML = participants
     .filter(p => pronos[p.slug])
-    .map(p => `<option value="${escapeHtml(p.slug)}">${escapeHtml(p.nom)} — ${p.total} pts</option>`)
+    .map(p => `<option value="${escapeHtml(p.slug)}">${escapeHtml(p.nom)}</option>`)
     .join('');
 
-  if (!select.value && select.options.length > 0) {
-    select.value = select.options[0].value;
+  const compare = () => $('#toggle-compare').checked;
+
+  function renderSelected() {
+    const slug  = select.value;
+    const prono = pronos[slug];
+    if (!prono) return;
+    renderPronoMatches(prono, compare());
+    renderPronosClassements(prono, compare());
+    renderPronos3es(prono, compare());
+    renderPronosBonus(prono, compare());
   }
 
-  // Handlers
-  select.onchange = renderPronosForCurrent;
-  $('#toggle-compare').onchange = renderPronosForCurrent;
+  select.addEventListener('change', renderSelected);
+  $('#toggle-compare').addEventListener('change', renderSelected);
 
-  renderPronosForCurrent();
+  if (select.options.length > 0) renderSelected();
 }
 
-function renderPronosForCurrent() {
-  const slug = $('#select-participant').value;
-  const compare = $('#toggle-compare').checked;
-  const prono = DATA.concours.pronostics[slug];
-  if (!prono) return;
+function renderPronoMatches(prono, compare) {
+  const matchesReels = {};
+  DATA.tournoi.matches.forEach(m => { matchesReels[m.n] = m; });
 
-  renderPronosMatches(prono, compare);
-  renderPronosClassements(prono, compare);
-  renderPronos3es(prono, compare);
-  renderPronosBonus(prono, compare);
-}
-
-function renderPronosMatches(prono, compare) {
-  const matchesReels = DATA.tournoi.matches;
-  const byN = {};
-  matchesReels.forEach(m => { byN[m.n] = m; });
-
-  // Groupe par groupe
-  const byGroupe = {};
+  const byGroup = {};
   prono.matches.forEach(pm => {
-    const reel = byN[pm.n];
-    if (!reel) return;
-    if (!byGroupe[reel.groupe]) byGroupe[reel.groupe] = [];
-    byGroupe[reel.groupe].push({ pm, reel });
+    if (!byGroup[pm.groupe]) byGroup[pm.groupe] = [];
+    byGroup[pm.groupe].push(pm);
   });
 
-  const html = Object.keys(byGroupe).sort().map(g => `
-    <div class="matches-groupe-bloc">
+  const grouped = Object.keys(byGroup).sort().map(g => {
+    const rows = byGroup[g].map(pm => renderPronoMatchRow(pm, matchesReels[pm.n] || {}, compare)).join('');
+    return `<div class="matches-groupe-bloc">
       <div class="matches-groupe-titre">Groupe ${g}</div>
-      ${byGroupe[g].map(({ pm, reel }) => renderPronoMatchRow(pm, reel, compare)).join('')}
-    </div>
-  `).join('');
+      ${rows}
+    </div>`;
+  }).join('');
 
-  $('#pronos-matches-container').innerHTML = html;
+  $('#pronos-matches-container').innerHTML = grouped;
 }
 
 function renderPronoMatchRow(pm, reel, compare) {
@@ -425,7 +469,6 @@ function renderPronoMatchRow(pm, reel, compare) {
     }
   }
 
-  // Sur mobile, ne montrer le score réel que si compare est actif
   const showReelClass = compare ? 'show-reel' : '';
 
   return `
@@ -453,8 +496,8 @@ function renderPronosClassements(prono, compare) {
       let rowClass = '';
       if (compare && groupTermine) {
         if (i < 2) {
-          if (team === reelTop2[i])                       rowClass = 'bonne-place';
-          else if (reelTop2.includes(team))                rowClass = 'inversion';
+          if (team === reelTop2[i])              rowClass = 'bonne-place';
+          else if (reelTop2.includes(team))      rowClass = 'inversion';
         }
       }
       return `
@@ -561,10 +604,8 @@ function renderBonus() {
   const cards = Object.keys(BONUS_LABELS).map(key => {
     const meta = BONUS_LABELS[key];
 
-    // Bloc résultat réel
     let reelHtml;
     if (key === 'meilleur_buteur') {
-      // Affiche le top 3 buteurs
       const entries = Object.entries(butsParJoueur)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5);
@@ -581,7 +622,6 @@ function renderBonus() {
         : `<p class="bonus-card-reel pending">En attente que la situation se présente.</p>`;
     }
 
-    // Bloc des pronostics participants (seulement si reveal passé)
     let pronosHtml = '';
     if (revealed) {
       const lines = participants
@@ -634,6 +674,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!isAuthed()) {
     setupLogin();
   } else {
+    showSplash();
     init();
   }
 });
