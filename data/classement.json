@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-07T09:54:32.432342+00:00",
+    "generated_at": "2026-06-07T21:23:17.650080+00:00",
     "deadline_poules": "2026-06-08T23:59:00",
     "reveal_pronos_at": "2026-06-11T21:00:00+02:00",
     "phase": "poules",
@@ -1424,6 +1424,21 @@
       },
       {
         "rang": 8,
+        "nom": "Florence Mathy",
+        "slug": "florence-mathy",
+        "total": 0,
+        "poules_matches": 0,
+        "poules_classement": 0,
+        "phase_finale": 0,
+        "bonus": 0,
+        "penalite": 0,
+        "scores_exacts": 0,
+        "bonnes_tendances": 0,
+        "bonus_buts_buteur": 0,
+        "bonus_questions_ok": []
+      },
+      {
+        "rang": 9,
         "nom": "Jerome Essabri",
         "slug": "jerome-essabri",
         "total": 0,
@@ -1438,7 +1453,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 9,
+        "rang": 10,
         "nom": "Laure Noël",
         "slug": "laure-noel",
         "total": 0,
@@ -1453,7 +1468,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 10,
+        "rang": 11,
         "nom": "Laurent B Lapcha",
         "slug": "laurent-b-lapcha",
         "total": 0,
@@ -1468,7 +1483,22 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 11,
+        "rang": 12,
+        "nom": "Marianne Hartert",
+        "slug": "marianne-hartert",
+        "total": 0,
+        "poules_matches": 0,
+        "poules_classement": 0,
+        "phase_finale": 0,
+        "bonus": 0,
+        "penalite": 0,
+        "scores_exacts": 0,
+        "bonnes_tendances": 0,
+        "bonus_buts_buteur": 0,
+        "bonus_questions_ok": []
+      },
+      {
+        "rang": 13,
         "nom": "Maxime Wegimont",
         "slug": "maxime-wegimont",
         "total": 0,
@@ -1483,7 +1513,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 12,
+        "rang": 14,
         "nom": "Yannick Goebbels",
         "slug": "yannick-goebbels",
         "total": 0,
@@ -4691,6 +4721,462 @@
           "premier_belge_but_de_la_tete": "Youri Tielemans"
         }
       },
+      "florence-mathy": {
+        "matches": [
+          {
+            "n": 1,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 2,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 3,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 4,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 5,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 6,
+            "score_home": 3,
+            "score_away": 2
+          },
+          {
+            "n": 7,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 8,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 9,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 10,
+            "score_home": 3,
+            "score_away": 1
+          },
+          {
+            "n": 11,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 12,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 13,
+            "score_home": 2,
+            "score_away": 3
+          },
+          {
+            "n": 14,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 15,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 16,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 17,
+            "score_home": 4,
+            "score_away": 2
+          },
+          {
+            "n": 18,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 19,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 20,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 21,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 22,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 23,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 24,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 25,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 26,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 27,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 28,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 29,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 30,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 31,
+            "score_home": 2,
+            "score_away": 3
+          },
+          {
+            "n": 32,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 33,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 34,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 35,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 36,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 37,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 38,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 39,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 40,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 41,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 42,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 43,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 44,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 45,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 46,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 47,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 48,
+            "score_home": 3,
+            "score_away": 0
+          },
+          {
+            "n": 49,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 50,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 51,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 52,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 53,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 54,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 55,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 56,
+            "score_home": 2,
+            "score_away": 3
+          },
+          {
+            "n": 57,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 58,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 59,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 60,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 61,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 62,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 63,
+            "score_home": 1,
+            "score_away": 3
+          },
+          {
+            "n": 64,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 65,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 66,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 67,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 68,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 69,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 70,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 71,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 72,
+            "score_home": 3,
+            "score_away": 0
+          }
+        ],
+        "classements": {
+          "A": [
+            "🇲🇽 Mexique",
+            "🇨🇿 Tchéquie",
+            "🇿🇦 Afrique du Sud",
+            "🇰🇷 Corée du Sud"
+          ],
+          "B": [
+            "🇶🇦 Qatar",
+            "🇨🇭 Suisse",
+            "🇧🇦 Bosnie-Herzégovine",
+            "🇨🇦 Canada"
+          ],
+          "C": [
+            "🇧🇷 Brésil",
+            "🇲🇦 Maroc",
+            "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse",
+            "🇭🇹 Haïti"
+          ],
+          "D": [
+            "🇺🇸 USA",
+            "🇹🇷 Turquie",
+            "🇦🇺 Australie",
+            "🇵🇾 Paraguay"
+          ],
+          "E": [
+            "🇩🇪 Allemagne",
+            "🇨🇼 Curaçao",
+            "🇨🇮 Côte d'Ivoire",
+            "🇪🇨 Équateur"
+          ],
+          "F": [
+            "🇳🇱 Pays-Bas",
+            "🇹🇳 Tunisie",
+            "🇯🇵 Japon",
+            "🇸🇪 Suède"
+          ],
+          "G": [
+            "🇧🇪 Belgique",
+            "🇪🇬 Égypte",
+            "🇳🇿 Nouvelle-Zélande",
+            "🇮🇷 Iran"
+          ],
+          "H": [
+            "🇪🇸 Espagne",
+            "🇺🇾 Uruguay",
+            "🇸🇦 Arabie Saoudite",
+            "🇨🇻 Cap-Vert"
+          ],
+          "I": [
+            "🇫🇷 France",
+            "🇸🇳 Sénégal",
+            "🇳🇴 Norvège",
+            "🇮🇶 Irak"
+          ],
+          "J": [
+            "🇦🇷 Argentine",
+            "🇦🇹 Autriche",
+            "🇩🇿 Algérie",
+            "🇯🇴 Jordanie"
+          ],
+          "K": [
+            "🇵🇹 Portugal",
+            "🇨🇴 Colombie",
+            "🇺🇿 Ouzbékistan",
+            "🇨🇩 RD Congo"
+          ],
+          "L": [
+            "🇭🇷 Croatie",
+            "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angleterre",
+            "🇬🇭 Ghana",
+            "🇵🇦 Panama"
+          ]
+        },
+        "meilleurs_3es": [
+          "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse",
+          "🇸🇦 Arabie Saoudite",
+          "🇦🇺 Australie",
+          "🇳🇴 Norvège",
+          "🇯🇵 Japon",
+          "🇩🇿 Algérie",
+          "🇳🇿 Nouvelle-Zélande",
+          "🇬🇭 Ghana"
+        ],
+        "bonus": {
+          "meilleur_buteur": "Harry Kane 🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+          "premiere_equipe_carton_rouge": "🇫🇷 France",
+          "premiere_equipe_penalty": "🇰🇷 Corée du Sud",
+          "premier_belge_carton_jaune": "Jérémy Doku",
+          "premier_belge_remplace": "Youri Tielemans",
+          "premier_belge_but_de_la_tete": "Romelu Lukaku"
+        }
+      },
       "jerome-essabri": {
         "matches": [
           {
@@ -6057,6 +6543,462 @@
           "premier_belge_carton_jaune": "Zeno Debast",
           "premier_belge_remplace": "Leandro Trossard",
           "premier_belge_but_de_la_tete": "Romelu Lukaku"
+        }
+      },
+      "marianne-hartert": {
+        "matches": [
+          {
+            "n": 1,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 2,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 3,
+            "score_home": 1,
+            "score_away": 3
+          },
+          {
+            "n": 4,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 5,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 6,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 7,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 8,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 9,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 10,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 11,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 12,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 13,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 14,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 15,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 16,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 17,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 18,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 19,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 20,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 21,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 22,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 23,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 24,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 25,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 26,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 27,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 28,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 29,
+            "score_home": 3,
+            "score_away": 0
+          },
+          {
+            "n": 30,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 31,
+            "score_home": 2,
+            "score_away": 3
+          },
+          {
+            "n": 32,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 33,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 34,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 35,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 36,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 37,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 38,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 39,
+            "score_home": 1,
+            "score_away": 3
+          },
+          {
+            "n": 40,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 41,
+            "score_home": 3,
+            "score_away": 1
+          },
+          {
+            "n": 42,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 43,
+            "score_home": 1,
+            "score_away": 3
+          },
+          {
+            "n": 44,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 45,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 46,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 47,
+            "score_home": 3,
+            "score_away": 1
+          },
+          {
+            "n": 48,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 49,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 50,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 51,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 52,
+            "score_home": 0,
+            "score_away": 0
+          },
+          {
+            "n": 53,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 54,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 55,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 56,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 57,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 58,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 59,
+            "score_home": 3,
+            "score_away": 1
+          },
+          {
+            "n": 60,
+            "score_home": 3,
+            "score_away": 0
+          },
+          {
+            "n": 61,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 62,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 63,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 64,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 65,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 66,
+            "score_home": 3,
+            "score_away": 2
+          },
+          {
+            "n": 67,
+            "score_home": 2,
+            "score_away": 2
+          },
+          {
+            "n": 68,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 69,
+            "score_home": 3,
+            "score_away": 0
+          },
+          {
+            "n": 70,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 71,
+            "score_home": 3,
+            "score_away": 1
+          },
+          {
+            "n": 72,
+            "score_home": 0,
+            "score_away": 0
+          }
+        ],
+        "classements": {
+          "A": [
+            "🇨🇿 Tchéquie",
+            "🇲🇽 Mexique",
+            "🇰🇷 Corée du Sud",
+            "🇿🇦 Afrique du Sud"
+          ],
+          "B": [
+            "🇨🇦 Canada",
+            "🇨🇭 Suisse",
+            "🇧🇦 Bosnie-Herzégovine",
+            "🇶🇦 Qatar"
+          ],
+          "C": [
+            "🇧🇷 Brésil",
+            "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse",
+            "🇲🇦 Maroc",
+            "🇭🇹 Haïti"
+          ],
+          "D": [
+            "🇹🇷 Turquie",
+            "🇺🇸 USA",
+            "🇦🇺 Australie",
+            "🇵🇾 Paraguay"
+          ],
+          "E": [
+            "🇩🇪 Allemagne",
+            "🇨🇮 Côte d'Ivoire",
+            "🇪🇨 Équateur",
+            "🇨🇼 Curaçao"
+          ],
+          "F": [
+            "🇳🇱 Pays-Bas",
+            "🇸🇪 Suède",
+            "🇯🇵 Japon",
+            "🇹🇳 Tunisie"
+          ],
+          "G": [
+            "🇧🇪 Belgique",
+            "🇳🇿 Nouvelle-Zélande",
+            "🇪🇬 Égypte",
+            "🇮🇷 Iran"
+          ],
+          "H": [
+            "🇪🇸 Espagne",
+            "🇸🇦 Arabie Saoudite",
+            "🇺🇾 Uruguay",
+            "🇨🇻 Cap-Vert"
+          ],
+          "I": [
+            "🇫🇷 France",
+            "🇳🇴 Norvège",
+            "🇸🇳 Sénégal",
+            "🇮🇶 Irak"
+          ],
+          "J": [
+            "🇦🇷 Argentine",
+            "🇦🇹 Autriche",
+            "🇯🇴 Jordanie",
+            "🇦🇹 Autriche"
+          ],
+          "K": [
+            "🇵🇹 Portugal",
+            "🇨🇴 Colombie",
+            "🇺🇿 Ouzbékistan",
+            "🇨🇩 RD Congo"
+          ],
+          "L": [
+            "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angleterre",
+            "🇭🇷 Croatie",
+            "🇵🇦 Panama",
+            "🇬🇭 Ghana"
+          ]
+        },
+        "meilleurs_3es": [
+          "🇧🇦 Bosnie-Herzégovine",
+          "🇵🇦 Panama",
+          "🇦🇺 Australie",
+          "🇯🇵 Japon",
+          "🇸🇳 Sénégal",
+          "🇺🇾 Uruguay",
+          "🇺🇿 Ouzbékistan",
+          "🇪🇬 Égypte"
+        ],
+        "bonus": {
+          "meilleur_buteur": "Lamine Yamal 🇪🇸",
+          "premiere_equipe_carton_rouge": "🇹🇷 Turquie",
+          "premiere_equipe_penalty": "🇫🇷 France",
+          "premier_belge_carton_jaune": "Nicolas Raskin",
+          "premier_belge_remplace": "Charles De Ketelaere",
+          "premier_belge_but_de_la_tete": "Nicolas Raskin"
         }
       },
       "maxime-wegimont": {
