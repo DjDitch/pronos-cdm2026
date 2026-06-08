@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-08T18:29:56.022540+00:00",
+    "generated_at": "2026-06-08T23:23:37.176985+00:00",
     "deadline_poules": "2026-06-08T23:59:00",
     "reveal_pronos_at": "2026-06-11T21:00:00+02:00",
     "phase": "poules",
@@ -2879,8 +2879,8 @@
           ],
           "C": [
             "Brésil",
-            "Maroc",
             "Écosse",
+            "Maroc",
             "Haïti"
           ],
           "D": [
@@ -2942,7 +2942,7 @@
           "Maroc",
           "Suède",
           "Sénégal",
-          "Croatie",
+          "Ghana",
           "Algérie",
           "Australie",
           "Afrique du Sud",
