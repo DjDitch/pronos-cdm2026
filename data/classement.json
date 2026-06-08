@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-07T21:23:17.650080+00:00",
+    "generated_at": "2026-06-08T13:25:32.914851+00:00",
     "deadline_poules": "2026-06-08T23:59:00",
     "reveal_pronos_at": "2026-06-11T21:00:00+02:00",
     "phase": "poules",
@@ -1514,6 +1514,21 @@
       },
       {
         "rang": 14,
+        "nom": "Nicolas Fastré",
+        "slug": "nicolas-fastre",
+        "total": 0,
+        "poules_matches": 0,
+        "poules_classement": 0,
+        "phase_finale": 0,
+        "bonus": 0,
+        "penalite": 0,
+        "scores_exacts": 0,
+        "bonnes_tendances": 0,
+        "bonus_buts_buteur": 0,
+        "bonus_questions_ok": []
+      },
+      {
+        "rang": 15,
         "nom": "Yannick Goebbels",
         "slug": "yannick-goebbels",
         "total": 0,
@@ -7455,6 +7470,462 @@
           "premier_belge_carton_jaune": "Amadou Onana",
           "premier_belge_remplace": "Dodi Lukébakio",
           "premier_belge_but_de_la_tete": "Maxim De Cuyper"
+        }
+      },
+      "nicolas-fastre": {
+        "matches": [
+          {
+            "n": 1,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 2,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 3,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 4,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 5,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 6,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 7,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 8,
+            "score_home": 3,
+            "score_away": 0
+          },
+          {
+            "n": 9,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 10,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 11,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 12,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 13,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 14,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 15,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 16,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 17,
+            "score_home": 3,
+            "score_away": 1
+          },
+          {
+            "n": 18,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 19,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 20,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 21,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 22,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 23,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 24,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 25,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 26,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 27,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 28,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 29,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 30,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 31,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 32,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 33,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 34,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 35,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 36,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 37,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 38,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 39,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 40,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 41,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 42,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 43,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 44,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 45,
+            "score_home": 0,
+            "score_away": 3
+          },
+          {
+            "n": 46,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 47,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 48,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 49,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 50,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 51,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 52,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 53,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 54,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 55,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 56,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 57,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 58,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 59,
+            "score_home": 1,
+            "score_away": 1
+          },
+          {
+            "n": 60,
+            "score_home": 2,
+            "score_away": 0
+          },
+          {
+            "n": 61,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 62,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 63,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 64,
+            "score_home": 1,
+            "score_away": 2
+          },
+          {
+            "n": 65,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 66,
+            "score_home": 0,
+            "score_away": 1
+          },
+          {
+            "n": 67,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 68,
+            "score_home": 2,
+            "score_away": 1
+          },
+          {
+            "n": 69,
+            "score_home": 1,
+            "score_away": 0
+          },
+          {
+            "n": 70,
+            "score_home": 0,
+            "score_away": 2
+          },
+          {
+            "n": 71,
+            "score_home": 3,
+            "score_away": 0
+          },
+          {
+            "n": 72,
+            "score_home": 1,
+            "score_away": 0
+          }
+        ],
+        "classements": {
+          "A": [
+            "🇲🇽 Mexique",
+            "🇨🇿 Tchéquie",
+            "🇰🇷 Corée du Sud",
+            "🇿🇦 Afrique du Sud"
+          ],
+          "B": [
+            "🇨🇭 Suisse",
+            "🇨🇦 Canada",
+            "🇧🇦 Bosnie-Herzégovine",
+            "🇶🇦 Qatar"
+          ],
+          "C": [
+            "🇧🇷 Brésil",
+            "🇲🇦 Maroc",
+            "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse",
+            "🇭🇹 Haïti"
+          ],
+          "D": [
+            "🇹🇷 Turquie",
+            "🇺🇸 USA",
+            "🇵🇾 Paraguay",
+            "🇦🇺 Australie"
+          ],
+          "E": [
+            "🇩🇪 Allemagne",
+            "🇪🇨 Équateur",
+            "🇨🇮 Côte d'Ivoire",
+            "🇨🇼 Curaçao"
+          ],
+          "F": [
+            "🇳🇱 Pays-Bas",
+            "🇯🇵 Japon",
+            "🇸🇪 Suède",
+            "🇹🇳 Tunisie"
+          ],
+          "G": [
+            "🇧🇪 Belgique",
+            "🇪🇬 Égypte",
+            "🇮🇷 Iran",
+            "🇳🇿 Nouvelle-Zélande"
+          ],
+          "H": [
+            "🇪🇸 Espagne",
+            "🇺🇾 Uruguay",
+            "🇨🇻 Cap-Vert",
+            "🇸🇦 Arabie Saoudite"
+          ],
+          "I": [
+            "🇫🇷 France",
+            "🇳🇴 Norvège",
+            "🇸🇳 Sénégal",
+            "🇮🇶 Irak"
+          ],
+          "J": [
+            "🇦🇷 Argentine",
+            "🇦🇹 Autriche",
+            "🇩🇿 Algérie",
+            "🇯🇴 Jordanie"
+          ],
+          "K": [
+            "🇵🇹 Portugal",
+            "🇨🇴 Colombie",
+            "🇨🇩 RD Congo",
+            "🇺🇿 Ouzbékistan"
+          ],
+          "L": [
+            "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angleterre",
+            "🇭🇷 Croatie",
+            "🇬🇭 Ghana",
+            "🇵🇦 Panama"
+          ]
+        },
+        "meilleurs_3es": [
+          "🇧🇦 Bosnie-Herzégovine",
+          "🇸🇪 Suède",
+          "🇨🇮 Côte d'Ivoire",
+          "🇬🇭 Ghana",
+          "🇩🇿 Algérie",
+          "🇸🇳 Sénégal",
+          "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse",
+          "🇮🇷 Iran"
+        ],
+        "bonus": {
+          "meilleur_buteur": "Harry Kane 🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+          "premiere_equipe_carton_rouge": "🇶🇦 Qatar",
+          "premiere_equipe_penalty": "🇨🇭 Suisse",
+          "premier_belge_carton_jaune": "Youri Tielemans",
+          "premier_belge_remplace": "Jérémy Doku",
+          "premier_belge_but_de_la_tete": "Amadou Onana"
         }
       },
       "yannick-goebbels": {
