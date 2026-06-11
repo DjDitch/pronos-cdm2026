@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-08T23:23:37.176985+00:00",
+    "generated_at": "2026-06-11T20:20:40.913958+00:00",
     "deadline_poules": "2026-06-08T23:59:00",
     "reveal_pronos_at": "2026-06-11T21:00:00+02:00",
     "phase": "poules",
@@ -1307,7 +1307,7 @@
       "🇵🇦 Panama"
     ],
     "bonus_reels": {
-      "premiere_equipe_carton_rouge": null,
+      "premiere_equipe_carton_rouge": "🇿🇦 Afrique du Sud",
       "premiere_equipe_penalty": null,
       "premier_belge_carton_jaune": null,
       "premier_belge_remplace": null,
@@ -1319,6 +1319,74 @@
     "participants": [
       {
         "rang": 1,
+        "nom": "David Marciniak",
+        "slug": "david-marciniak",
+        "total": 5,
+        "poules_matches": 0,
+        "poules_classement": 0,
+        "phase_finale": 0,
+        "bonus": 5,
+        "penalite": 0,
+        "scores_exacts": 0,
+        "bonnes_tendances": 0,
+        "bonus_buts_buteur": 0,
+        "bonus_questions_ok": [
+          "premiere_equipe_carton_rouge"
+        ]
+      },
+      {
+        "rang": 2,
+        "nom": "Hugues Mouchamps",
+        "slug": "hugues-mouchamps",
+        "total": 5,
+        "poules_matches": 0,
+        "poules_classement": 0,
+        "phase_finale": 0,
+        "bonus": 5,
+        "penalite": 0,
+        "scores_exacts": 0,
+        "bonnes_tendances": 0,
+        "bonus_buts_buteur": 0,
+        "bonus_questions_ok": [
+          "premiere_equipe_carton_rouge"
+        ]
+      },
+      {
+        "rang": 3,
+        "nom": "Jerome Essabri",
+        "slug": "jerome-essabri",
+        "total": 5,
+        "poules_matches": 0,
+        "poules_classement": 0,
+        "phase_finale": 0,
+        "bonus": 5,
+        "penalite": 0,
+        "scores_exacts": 0,
+        "bonnes_tendances": 0,
+        "bonus_buts_buteur": 0,
+        "bonus_questions_ok": [
+          "premiere_equipe_carton_rouge"
+        ]
+      },
+      {
+        "rang": 4,
+        "nom": "Thomas Mouchamps",
+        "slug": "thomas-mouchamps",
+        "total": 5,
+        "poules_matches": 0,
+        "poules_classement": 0,
+        "phase_finale": 0,
+        "bonus": 5,
+        "penalite": 0,
+        "scores_exacts": 0,
+        "bonnes_tendances": 0,
+        "bonus_buts_buteur": 0,
+        "bonus_questions_ok": [
+          "premiere_equipe_carton_rouge"
+        ]
+      },
+      {
+        "rang": 5,
         "nom": "André Lengelé",
         "slug": "andre-lengele",
         "total": 0,
@@ -1333,7 +1401,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 2,
+        "rang": 6,
         "nom": "Céline Aussems",
         "slug": "celine-aussems",
         "total": 0,
@@ -1348,7 +1416,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 3,
+        "rang": 7,
         "nom": "Chat GTP",
         "slug": "chat-gtp",
         "total": 0,
@@ -1363,7 +1431,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 4,
+        "rang": 8,
         "nom": "Claude IA",
         "slug": "claude-ia",
         "total": 0,
@@ -1378,22 +1446,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 5,
-        "nom": "David Marciniak",
-        "slug": "david-marciniak",
-        "total": 0,
-        "poules_matches": 0,
-        "poules_classement": 0,
-        "phase_finale": 0,
-        "bonus": 0,
-        "penalite": 0,
-        "scores_exacts": 0,
-        "bonnes_tendances": 0,
-        "bonus_buts_buteur": 0,
-        "bonus_questions_ok": []
-      },
-      {
-        "rang": 6,
+        "rang": 9,
         "nom": "Didier Wegimont",
         "slug": "didier-wegimont",
         "total": 0,
@@ -1408,7 +1461,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 7,
+        "rang": 10,
         "nom": "Estelle Wégimont",
         "slug": "estelle-wegimont",
         "total": 0,
@@ -1423,7 +1476,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 8,
+        "rang": 11,
         "nom": "Florence Mathy",
         "slug": "florence-mathy",
         "total": 0,
@@ -1438,22 +1491,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 9,
-        "nom": "Hugues Mouchamps",
-        "slug": "hugues-mouchamps",
-        "total": 0,
-        "poules_matches": 0,
-        "poules_classement": 0,
-        "phase_finale": 0,
-        "bonus": 0,
-        "penalite": 0,
-        "scores_exacts": 0,
-        "bonnes_tendances": 0,
-        "bonus_buts_buteur": 0,
-        "bonus_questions_ok": []
-      },
-      {
-        "rang": 10,
+        "rang": 12,
         "nom": "Iris Zizic",
         "slug": "iris-zizic",
         "total": 0,
@@ -1468,22 +1506,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 11,
-        "nom": "Jerome Essabri",
-        "slug": "jerome-essabri",
-        "total": 0,
-        "poules_matches": 0,
-        "poules_classement": 0,
-        "phase_finale": 0,
-        "bonus": 0,
-        "penalite": 0,
-        "scores_exacts": 0,
-        "bonnes_tendances": 0,
-        "bonus_buts_buteur": 0,
-        "bonus_questions_ok": []
-      },
-      {
-        "rang": 12,
+        "rang": 13,
         "nom": "Laure Noël",
         "slug": "laure-noel",
         "total": 0,
@@ -1498,7 +1521,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 13,
+        "rang": 14,
         "nom": "Laurent B Lapcha",
         "slug": "laurent-b-lapcha",
         "total": 0,
@@ -1513,7 +1536,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 14,
+        "rang": 15,
         "nom": "Marianne Hartert",
         "slug": "marianne-hartert",
         "total": 0,
@@ -1528,7 +1551,7 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 15,
+        "rang": 16,
         "nom": "Maxime Wegimont",
         "slug": "maxime-wegimont",
         "total": 0,
@@ -1543,24 +1566,9 @@
         "bonus_questions_ok": []
       },
       {
-        "rang": 16,
+        "rang": 17,
         "nom": "Nicolas Fastré",
         "slug": "nicolas-fastre",
-        "total": 0,
-        "poules_matches": 0,
-        "poules_classement": 0,
-        "phase_finale": 0,
-        "bonus": 0,
-        "penalite": 0,
-        "scores_exacts": 0,
-        "bonnes_tendances": 0,
-        "bonus_buts_buteur": 0,
-        "bonus_questions_ok": []
-      },
-      {
-        "rang": 17,
-        "nom": "Thomas Mouchamps",
-        "slug": "thomas-mouchamps",
         "total": 0,
         "poules_matches": 0,
         "poules_classement": 0,
