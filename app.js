@@ -70,14 +70,12 @@ function showSplash() {
 function playTripOnce() {
   if (tripPlayed) return;
   tripPlayed = true;
-  const overlay = document.getElementById('djditch-trip-overlay');
-  const img = document.getElementById('djditch-trip-gif');
-  if (!overlay || !img) return;
-  img.src = 'img/DjDitch-trip.gif';
-  overlay.hidden = false;
+  const headerImg = document.getElementById('djditch-header-img');
+  if (!headerImg) return;
+  // Swap : PNG statique → GIF trip dans le header, navigation libre
+  headerImg.src = 'img/DjDitch-trip.gif';
   setTimeout(() => {
-    overlay.classList.add('djditch-fadeout');
-    overlay.addEventListener('animationend', () => { overlay.hidden = true; overlay.classList.remove('djditch-fadeout'); img.src = ''; }, { once: true });
+    headerImg.src = 'img/djditch-header.png';
   }, DJDITCH_TRIP_DURATION_MS);
 }
 
@@ -181,39 +179,36 @@ function renderTournoi() {
   nbJouesSpan.textContent = matches.filter(m => m.joue).length;
   groupesContainer.innerHTML = groupes.map(g => renderGroupeCard(g)).join('');
   const matchesParGroupe = {};
-  matches.forEach(m => { if (!matchesParGroupe[m.groupe]) matchesParGroupe[m.groupe] = []; matchesParGroupe[m.groupe].push(m); });
+  matches.forEach(m => { if (!matchesParGroupe[m.groupe]) matchesParGroupe[m.groupe]=[]; matchesParGroupe[m.groupe].push(m); });
   matchesContainer.innerHTML = Object.keys(matchesParGroupe).sort().map(g => {
-    return `<div class="matches-groupe-bloc"><div class="matches-groupe-titre">Groupe ${g}</div>${matchesParGroupe[g].map(m => renderMatchRow(m)).join('')}</div>`;
+    return `<div class="matches-groupe-bloc"><div class="matches-groupe-titre">Groupe ${g}</div>${matchesParGroupe[g].map(m=>renderMatchRow(m)).join('')}</div>`;
   }).join('');
 }
 
 function renderGroupeCard(g) {
-  const joues = g.equipes.reduce((acc, e) => acc + e.j, 0) / 2;
-  const badge = joues > 0 ? `<span class="badge-joues">${joues}/6 joués</span>` : '';
-  const rows = g.equipes.map((e, i) => {
+  const joues = g.equipes.reduce((acc,e)=>acc+e.j,0)/2;
+  const badge = joues>0 ? `<span class="badge-joues">${joues}/6 joués</span>` : '';
+  const rows = g.equipes.map((e,i) => {
     const qClass = i===0?'qualifie-1':i===1?'qualifie-2':i===2?'qualifie-3':'';
     return `<tr class="${qClass}"><td>${i+1}</td><td class="team">${escapeHtml(e.equipe)}</td><td>${e.j}</td><td>${e.v}</td><td>${e.n}</td><td>${e.d}</td><td>${e.bp}</td><td>${e.bc}</td><td>${e.diff>=0?'+':''}${e.diff}</td><td class="col-pts">${e.pts}</td></tr>`;
   }).join('');
-  return `<div class="groupe-card"><div class="groupe-head"><span>Groupe ${g.id}</span>${badge}</div>
-    <table class="groupe-table"><thead><tr><th>#</th><th class="team">Équipe</th><th>J</th><th>V</th><th>N</th><th>D</th><th>Bp</th><th>Bc</th><th>Diff</th><th>Pts</th></tr></thead>
-    <tbody>${rows}</tbody></table></div>`;
+  return `<div class="groupe-card"><div class="groupe-head"><span>Groupe ${g.id}</span>${badge}</div><table class="groupe-table"><thead><tr><th>#</th><th class="team">Équipe</th><th>J</th><th>V</th><th>N</th><th>D</th><th>Bp</th><th>Bc</th><th>Diff</th><th>Pts</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 function renderMatchRow(m) {
   let scoreHtml, homeClass='', awayClass='';
   if (m.joue) {
     scoreHtml = `<span class="match-score">${m.score_home} – ${m.score_away}</span>`;
-    if (m.score_home > m.score_away) { homeClass='winner'; awayClass='loser'; }
-    else if (m.score_away > m.score_home) { homeClass='loser'; awayClass='winner'; }
-  } else { scoreHtml = `<span class="match-score empty">vs</span>`; }
+    if (m.score_home>m.score_away){homeClass='winner';awayClass='loser';}
+    else if (m.score_away>m.score_home){homeClass='loser';awayClass='winner';}
+  } else { scoreHtml=`<span class="match-score empty">vs</span>`; }
   return `<div class="match-row ${m.joue?'joue':''}"><span class="match-n">#${m.n}</span><span class="match-home ${homeClass}">${escapeHtml(m.home)}</span>${scoreHtml}<span class="match-away ${awayClass}">${escapeHtml(m.away)}</span></div>`;
 }
 
 const REVEAL_KEY = 'reveal_pronos_at';
-
 function isPronosRevealed() {
   const at = DATA.meta[REVEAL_KEY];
-  if (!at) return true;  // pas de clé = toujours révélé
+  if (!at) return false;
   return new Date() >= new Date(at);
 }
 
@@ -221,76 +216,70 @@ function renderPronos() {
   const lockedScreen = $('#pronos-locked');
   const content = $('#pronos-content');
   if (!isPronosRevealed()) { lockedScreen.hidden=false; content.hidden=true; return; }
-  lockedScreen.hidden = true;
-  content.hidden = false;
-  const pronos = DATA.concours.pronostics || {};
+  lockedScreen.hidden=true; content.hidden=false;
+  const pronos = DATA.concours.pronostics||{};
   const participants = DATA.concours.participants;
   const select = $('#select-participant');
-  select.innerHTML = participants.filter(p => pronos[p.slug]).map(p => `<option value="${escapeHtml(p.slug)}">${escapeHtml(p.nom)}</option>`).join('');
-  const compare = () => $('#toggle-compare').checked;
+  select.innerHTML = participants.filter(p=>pronos[p.slug]).map(p=>`<option value="${escapeHtml(p.slug)}">${escapeHtml(p.nom)}</option>`).join('');
+  const compare = ()=>$('#toggle-compare').checked;
   function renderSelected() {
-    const slug = select.value;
-    const prono = pronos[slug];
-    if (!prono) return;
-    renderPronoMatches(prono, compare());
-    renderPronosClassements(prono, compare());
-    renderPronos3es(prono, compare());
-    renderPronosBonus(prono, compare());
+    const slug=select.value; const prono=pronos[slug]; if(!prono) return;
+    renderPronoMatches(prono,compare()); renderPronosClassements(prono,compare());
+    renderPronos3es(prono,compare()); renderPronosBonus(prono,compare());
   }
-  select.addEventListener('change', renderSelected);
-  $('#toggle-compare').addEventListener('change', renderSelected);
-  if (select.options.length > 0) renderSelected();
+  select.addEventListener('change',renderSelected);
+  $('#toggle-compare').addEventListener('change',renderSelected);
+  if (select.options.length>0) renderSelected();
 }
 
-function renderPronoMatches(prono, compare) {
-  const matchesReels = {};
-  DATA.tournoi.matches.forEach(m => { matchesReels[m.n] = m; });
-  const byGroup = {};
-  prono.matches.forEach(pm => {
-    const groupe = (matchesReels[pm.n] || {}).groupe || '?';
-    if (!byGroup[groupe]) byGroup[groupe]=[];
-    byGroup[groupe].push(pm);
-  });
-  $('#pronos-matches-container').innerHTML = Object.keys(byGroup).sort().map(g => {
-    return `<div class="matches-groupe-bloc"><div class="matches-groupe-titre">Groupe ${g}</div>${byGroup[g].map(pm => renderPronoMatchRow(pm, matchesReels[pm.n]||{}, compare)).join('')}</div>`;
+function renderPronoMatches(prono,compare) {
+  const matchesReels={};
+  DATA.tournoi.matches.forEach(m=>{matchesReels[m.n]=m;});
+  const byGroup={};
+  prono.matches.forEach(pm=>{if(!byGroup[pm.groupe])byGroup[pm.groupe]=[];byGroup[pm.groupe].push(pm);});
+  $('#pronos-matches-container').innerHTML = Object.keys(byGroup).sort().map(g=>{
+    return `<div class="matches-groupe-bloc"><div class="matches-groupe-titre">Groupe ${g}</div>${byGroup[g].map(pm=>renderPronoMatchRow(pm,matchesReels[pm.n]||{},compare)).join('')}</div>`;
   }).join('');
 }
 
-function renderPronoMatchRow(pm, reel, compare) {
-  let resultClass='', reelScoreHtml=`<span class="pm-score-reel empty">vs</span>`;
+function renderPronoMatchRow(pm,reel,compare) {
+  let resultClass=''; let reelScoreHtml=`<span class="pm-score-reel empty">vs</span>`;
   if (reel.joue) {
-    reelScoreHtml = `<span class="pm-score-reel">${reel.score_home} - ${reel.score_away}</span>`;
+    reelScoreHtml=`<span class="pm-score-reel">${reel.score_home} - ${reel.score_away}</span>`;
     if (compare) {
-      const exact = pm.score_home===reel.score_home && pm.score_away===reel.score_away;
-      const tendOk = tendance(pm.score_home,pm.score_away)===tendance(reel.score_home,reel.score_away);
+      const exact=pm.score_home===reel.score_home&&pm.score_away===reel.score_away;
+      const tendOk=tendance(pm.score_home,pm.score_away)===tendance(reel.score_home,reel.score_away);
       if (exact) resultClass='pronos-exact'; else if (tendOk) resultClass='pronos-tendance'; else resultClass='pronos-faux';
     }
   }
-  const showReelClass = compare ? 'show-reel' : '';
-  return `<div class="pronos-match-row ${resultClass} ${showReelClass}"><span class="match-n">#${pm.n}</span><span class="match-home" style="text-align:right">${escapeHtml(reel.home)}</span><span class="pm-score-prono">${pm.score_home}-${pm.score_away}</span><span class="pm-vs">vs réel →</span>${reelScoreHtml}<span class="match-away">${escapeHtml(reel.away)}</span></div>`;
+  return `<div class="pronos-match-row ${resultClass} ${compare?'show-reel':''}">
+    <span class="match-n">#${pm.n}</span>
+    <span class="match-home" style="text-align:right">${escapeHtml(reel.home)}</span>
+    <span class="pm-score-prono">${pm.score_home}-${pm.score_away}</span>
+    <span class="pm-vs">vs réel →</span>
+    ${reelScoreHtml}
+    <span class="match-away">${escapeHtml(reel.away)}</span>
+  </div>`;
 }
 
-function renderPronosClassements(prono, compare) {
-  const groupesReels = {};
-  DATA.tournoi.groupes.forEach(g => { groupesReels[g.id] = g.equipes; });
-  const classements = prono.classement_par_groupe || prono.classements || {};
-  $('#pronos-classements-container').innerHTML = Object.keys(classements).sort().map(g_id => {
-    const pronoTeams = classements[g_id];
-    const reelLignes = groupesReels[g_id] || [];
-    const reelTop2 = reelLignes.slice(0,2).map(l => l.equipe);
-    const groupTermine = reelLignes.every(l => l.j===3);
-    const rows = pronoTeams.map((team,i) => {
+function renderPronosClassements(prono,compare) {
+  const groupesReels={};
+  DATA.tournoi.groupes.forEach(g=>{groupesReels[g.id]=g.equipes;});
+  $('#pronos-classements-container').innerHTML = Object.keys(prono.classements).sort().map(g_id=>{
+    const pronoTeams=prono.classements[g_id]; const reelLignes=groupesReels[g_id]||[];
+    const reelTop2=reelLignes.slice(0,2).map(l=>l.equipe); const groupTermine=reelLignes.every(l=>l.j===3);
+    const rows=pronoTeams.map((team,i)=>{
       let rowClass='';
-      if (compare && groupTermine && i<2) { if (team===reelTop2[i]) rowClass='bonne-place'; else if (reelTop2.includes(team)) rowClass='inversion'; }
+      if (compare&&groupTermine&&i<2) { if (team===reelTop2[i]) rowClass='bonne-place'; else if (reelTop2.includes(team)) rowClass='inversion'; }
       return `<tr class="${rowClass}"><td class="rang">${i+1}</td><td>${escapeHtml(team)}</td></tr>`;
     }).join('');
     return `<div class="prono-classement-card"><div class="groupe-head"><span>Groupe ${g_id}</span>${groupTermine?'<span class="badge-joues">Terminé</span>':''}</div><table class="prono-classement-table"><tbody>${rows}</tbody></table></div>`;
   }).join('');
 }
 
-function renderPronos3es(prono, compare) {
-  const reels3es = new Set(DATA.tournoi.meilleurs_3es || []);
-  $('#pronos-3es-container').innerHTML = prono.meilleurs_3es.map(t => `<span class="pill ${compare&&reels3es.has(t)?'matched':''}">${escapeHtml(t)}</span>`).join('');
+function renderPronos3es(prono,compare) {
+  const reels3es=new Set(DATA.tournoi.meilleurs_3es||[]);
+  $('#pronos-3es-container').innerHTML = prono.meilleurs_3es.map(t=>`<span class="pill ${compare&&reels3es.has(t)?'matched':''}">${escapeHtml(t)}</span>`).join('');
 }
 
 const BONUS_LABELS = {

@@ -947,28 +947,7 @@ select#select-participant {
    Positionné en fixed, centré, fond semi-transparent
    ============================================================================ */
 
-#djditch-trip-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15,15,15,0.72);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 900;
-  cursor: pointer;
-}
 
-#djditch-trip-overlay[hidden] {
-  display: none;
-}
-
-#djditch-trip-overlay img {
-  display: block;
-  border-radius: 16px;
-  box-shadow: 0 16px 64px rgba(0,0,0,0.6);
-  max-width: 90vw;
-  max-height: 80vh;
-}
 
 /* ============================================================================
    ANIMATION FADEOUT — partagée par splash et trip overlay
@@ -1020,7 +999,6 @@ select#select-participant {
   .controls { padding: 14px; gap: 14px; }
 
   #djditch-splash img { width: 160px; height: 160px; }
-  #djditch-trip-overlay img { width: 240px; height: 240px; }
 }
 
 @media (min-width: 721px) {
