@@ -246,7 +246,11 @@ function renderPronoMatches(prono, compare) {
   const matchesReels = {};
   DATA.tournoi.matches.forEach(m => { matchesReels[m.n] = m; });
   const byGroup = {};
-  prono.matches.forEach(pm => { if (!byGroup[pm.groupe]) byGroup[pm.groupe]=[]; byGroup[pm.groupe].push(pm); });
+  prono.matches.forEach(pm => {
+    const groupe = (matchesReels[pm.n] || {}).groupe || '?';
+    if (!byGroup[groupe]) byGroup[groupe]=[];
+    byGroup[groupe].push(pm);
+  });
   $('#pronos-matches-container').innerHTML = Object.keys(byGroup).sort().map(g => {
     return `<div class="matches-groupe-bloc"><div class="matches-groupe-titre">Groupe ${g}</div>${byGroup[g].map(pm => renderPronoMatchRow(pm, matchesReels[pm.n]||{}, compare)).join('')}</div>`;
   }).join('');
@@ -269,8 +273,9 @@ function renderPronoMatchRow(pm, reel, compare) {
 function renderPronosClassements(prono, compare) {
   const groupesReels = {};
   DATA.tournoi.groupes.forEach(g => { groupesReels[g.id] = g.equipes; });
-  $('#pronos-classements-container').innerHTML = Object.keys(prono.classements).sort().map(g_id => {
-    const pronoTeams = prono.classements[g_id];
+  const classements = prono.classement_par_groupe || prono.classements || {};
+  $('#pronos-classements-container').innerHTML = Object.keys(classements).sort().map(g_id => {
+    const pronoTeams = classements[g_id];
     const reelLignes = groupesReels[g_id] || [];
     const reelTop2 = reelLignes.slice(0,2).map(l => l.equipe);
     const groupTermine = reelLignes.every(l => l.j===3);
