@@ -232,7 +232,7 @@ function renderPronos() {
   }).join('');
 
   const compare = () => $('#toggle-compare').checked;
-  let mode = 'participant';
+  let mode = $('#pronos-mode-match').classList.contains('active') ? 'match' : 'participant';
 
   function applyMode() {
     const ctrlParticipant = $('#ctrl-participant');
@@ -282,7 +282,7 @@ function renderPronos() {
   $('#toggle-compare').addEventListener('change', () => {
     if (mode === 'participant') renderSelected(); else renderMatchSelected();
   });
-  applyMode();
+  setTimeout(applyMode, 0);
 }
 
 function renderPronosParMatch(matchN, compare) {
