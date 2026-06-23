@@ -210,6 +210,7 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--white);
   position: relative;
   box-shadow: var(--shadow-lg);
+  overflow: visible;
 }
 
 .header-stripe {
@@ -223,7 +224,7 @@ button { font-family: inherit; cursor: pointer; }
 .header-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 24px 16px;
+  padding: 12px 24px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -707,8 +708,7 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 600;
 }
 
-select#select-participant,
-select#select-match {
+select#select-participant {
   font-family: 'Manrope', sans-serif;
   font-size: 15px;
   font-weight: 600;
@@ -718,10 +718,6 @@ select#select-match {
   background: var(--yellow);
   color: var(--black);
   cursor: pointer;
-}
-
-select#select-match {
-  max-width: 340px;
 }
 
 .toggle-label {
@@ -857,97 +853,6 @@ select#select-match {
 .verdict.pending { background: var(--gray-4); color: var(--gray-2); }
 
 /* ============================================================================
-   PRONOS — Toggle mode Par participant / Par match
-   ============================================================================ */
-.mode-toggle {
-  display: flex;
-  gap: 4px;
-  background: var(--gray-4);
-  padding: 3px;
-  border-radius: var(--radius);
-}
-
-.mode-btn {
-  background: transparent;
-  border: none;
-  padding: 7px 14px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--gray-2);
-  border-radius: 6px;
-  transition: background 0.15s, color 0.15s;
-  white-space: nowrap;
-}
-
-.mode-btn:hover { color: var(--black); }
-
-.mode-btn.active {
-  background: var(--black);
-  color: var(--white);
-}
-
-/* ============================================================================
-   PRONOS — Vue par match
-   ============================================================================ */
-.par-match-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  background: white;
-  padding: 20px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  margin-bottom: 16px;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.par-match-header .match-home { text-align: right; flex: 1; }
-.par-match-header .match-away { text-align: left;  flex: 1; }
-
-.par-match-table {
-  width: 100%;
-  background: white;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  border-collapse: separate;
-  border-spacing: 0;
-  overflow: hidden;
-  font-size: 14px;
-}
-
-.par-match-table thead th {
-  background: var(--black);
-  color: var(--white);
-  text-align: left;
-  padding: 12px 16px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-}
-
-.par-match-table thead th:last-child { text-align: center; }
-
-.par-match-table tbody tr {
-  border-bottom: 1px solid var(--gray-4);
-  transition: background 0.1s;
-}
-.par-match-table tbody tr:last-child { border-bottom: none; }
-.par-match-table tbody tr:hover { background: var(--gray-5); }
-
-.par-match-table td { padding: 11px 16px; }
-
-.par-match-table td.pm-nom { font-weight: 600; }
-.par-match-table td.pm-score-cell { text-align: center; }
-
-/* Couleurs par résultat (réutilise les classes pronos existantes) */
-.par-match-table tr.pronos-exact    { background: var(--green-bg); }
-.par-match-table tr.pronos-tendance { background: var(--orange-bg); }
-.par-match-table tr.pronos-faux     { background: var(--red-bg); }
-
-/* ============================================================================
    VUE BONUS (résultats réels + tous les participants)
    ============================================================================ */
 .bonus-cards {
@@ -1042,28 +947,7 @@ select#select-match {
    Positionné en fixed, centré, fond semi-transparent
    ============================================================================ */
 
-#djditch-trip-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15,15,15,0.72);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 900;
-  cursor: pointer;
-}
 
-#djditch-trip-overlay[hidden] {
-  display: none;
-}
-
-#djditch-trip-overlay img {
-  display: block;
-  border-radius: 16px;
-  box-shadow: 0 16px 64px rgba(0,0,0,0.6);
-  max-width: 90vw;
-  max-height: 80vh;
-}
 
 /* ============================================================================
    ANIMATION FADEOUT — partagée par splash et trip overlay
@@ -1114,14 +998,134 @@ select#select-match {
 
   .controls { padding: 14px; gap: 14px; }
 
-  select#select-match { max-width: 100%; }
-
-  .par-match-header { font-size: 13px; gap: 10px; padding: 14px; }
-
   #djditch-splash img { width: 160px; height: 160px; }
-  #djditch-trip-overlay img { width: 240px; height: 240px; }
 }
 
 @media (min-width: 721px) {
   .classement-mobile { display: none; }
+}
+
+/* ============================================================================
+   DJDITCH — Header permanent + bulle de dialogue BD
+   ============================================================================ */
+
+#djditch-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+#djditch-header-img {
+  display: block;
+  border-radius: 0;
+  cursor: default;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+  margin-bottom: -10px;  /* débordement léger vers le bas */
+}
+
+#djditch-header.speaking #djditch-header-img {
+  animation: djditchBounce 0.4s ease;
+}
+
+@keyframes djditchBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.12) rotate(-4deg); }
+  70%  { transform: scale(0.96) rotate(2deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+#djditch-bubble {
+  position: absolute;
+  right: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #FAFAFA;
+  color: #0F0F0F;
+  border: 3px solid #0F0F0F;
+  border-radius: 14px;
+  padding: 10px 14px;
+  max-width: 260px;
+  min-width: 160px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  box-shadow: 3px 3px 0 #0F0F0F;
+  z-index: 200;
+  pointer-events: none;
+}
+
+#djditch-bubble::after {
+  content: '';
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 7px solid transparent;
+  border-left-color: #0F0F0F;
+}
+#djditch-bubble::before {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left-color: #FAFAFA;
+  z-index: 1;
+}
+
+#djditch-bubble[hidden] { display: none; }
+
+@keyframes bubblePop {
+  0%   { opacity: 0; transform: translateY(-50%) scale(0.85); }
+  60%  { transform: translateY(-50%) scale(1.04); }
+  100% { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+
+#djditch-bubble.bubble-in {
+  animation: bubblePop 0.25s ease forwards;
+}
+
+@keyframes bubbleFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+#djditch-bubble.bubble-out {
+  animation: bubbleFadeOut 0.4s ease forwards;
+}
+
+@media (max-width: 720px) {
+  #djditch-header-img { width: 55px; height: 75px; }
+
+  #djditch-bubble {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: 56px;
+    transform: translateX(-50%);
+    font-size: 12px;
+    max-width: 220px;
+  }
+
+  #djditch-bubble::after {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -14px;
+    transform: translateX(-50%);
+    border-left-color: transparent;
+    border-top-color: #0F0F0F;
+  }
+  #djditch-bubble::before {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border-left-color: transparent;
+    border-top-color: #FAFAFA;
+  }
 }
