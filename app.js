@@ -35,6 +35,7 @@ function setupLogin() {
 
 let DATA = null;
 let CURRENT_TAB = 'classement';
+let _applyPronosMode = null; // exposé par renderPronos
 
 const $  = (sel, el = document) => el.querySelector(sel);
 const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
@@ -116,6 +117,7 @@ function setTab(name) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   djditchOnTabChange(name);
   if (name === 'tournoi') playTripOnce();
+  if (name === 'pronos' && _applyPronosMode) setTimeout(_applyPronosMode, 0);
 }
 
 function renderClassement() {
@@ -282,6 +284,7 @@ function renderPronos() {
   $('#toggle-compare').addEventListener('change', () => {
     if (mode === 'participant') renderSelected(); else renderMatchSelected();
   });
+  _applyPronosMode = applyMode;
   setTimeout(applyMode, 0);
 }
 
