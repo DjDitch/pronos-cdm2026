@@ -250,6 +250,7 @@ function renderPronos() {
       btnParticipant.classList.add('active');
       btnMatch.classList.remove('active');
       ctrlParticipant.hidden = false;
+      ctrlMatch.classList.remove('visible');
       ctrlMatch.hidden = true;
       sectionsParticipant.hidden = false;
       sectionsMatch.hidden = true;
@@ -258,6 +259,7 @@ function renderPronos() {
       btnParticipant.classList.remove('active');
       btnMatch.classList.add('active');
       ctrlParticipant.hidden = true;
+      ctrlMatch.classList.add('visible');
       ctrlMatch.hidden = false;
       sectionsParticipant.hidden = true;
       sectionsMatch.hidden = false;

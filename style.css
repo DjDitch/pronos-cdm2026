@@ -472,6 +472,8 @@ select#select-participant {
 .mode-btn:hover { color: var(--black); }
 .mode-btn.active { background: var(--black); color: var(--white); }
 
+#ctrl-match { display: none; }
+#ctrl-match.visible { display: flex; }
 select#select-match { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 600; padding: 8px 12px; border: 2px solid var(--black); border-radius: var(--radius); background: var(--yellow); color: var(--black); cursor: pointer; max-width: 340px; }
 
 /* ============================================================================
