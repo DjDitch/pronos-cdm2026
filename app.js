@@ -234,7 +234,10 @@ function renderPronos() {
   }).join('');
 
   const compare = () => $('#toggle-compare').checked;
-  let mode = $('#pronos-mode-match').classList.contains('active') ? 'match' : 'participant';
+  let mode = 'participant';
+  // Forcer l'état initial indépendamment de ce que Safari a pu restaurer
+  $('#pronos-mode-participant').classList.add('active');
+  $('#pronos-mode-match').classList.remove('active');
 
   function applyMode() {
     const ctrlParticipant = $('#ctrl-participant');
