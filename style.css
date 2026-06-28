@@ -580,23 +580,23 @@ select#select-bracket-participant { font-family: 'Manrope', sans-serif; font-siz
 .bk-sum-val { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--black); }
 
 /* Course aux points */
-.course { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 16px 18px; position: relative; }
-.course::before { content: ''; position: absolute; top: 12px; bottom: 12px; left: calc(170px + (100% - 170px - 70px) * var(--leader) / 100); width: 2px; background: repeating-linear-gradient(var(--red), var(--red) 4px, transparent 4px, transparent 8px); z-index: 2; }
-.course-row { display: grid; grid-template-columns: 160px 1fr 64px; align-items: center; gap: 10px; padding: 5px 0; }
+.course { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 16px 18px; }
+.course-row { display: grid; grid-template-columns: 158px 1fr 76px; align-items: center; gap: 10px; padding: 6px 0; }
 .course-nom { font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.course-bar-wrap { display: flex; height: 16px; background: var(--gray-5); border-radius: 8px; overflow: hidden; }
+.course-bar-wrap { position: relative; display: flex; height: 16px; background: var(--gray-5); border-radius: 8px; overflow: hidden; }
 .course-bar-solid { background: var(--black); height: 100%; }
 .course-bar-ghost { background: repeating-linear-gradient(45deg, var(--gray-4), var(--gray-4) 5px, #EDEDED 5px, #EDEDED 10px); height: 100%; }
+.course-bar-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; left: var(--leaderpct); width: 2px; margin-left: -1px; background: var(--red); z-index: 3; }
 .course-row.en-piste .course-bar-solid { background: var(--red); }
-.course-row.out { opacity: 0.55; }
-.course-val { font-size: 13px; font-weight: 800; text-align: right; }
-.course-ceil { font-size: 11px; color: var(--gray-2); font-weight: 600; }
+.course-row.out { opacity: 0.5; }
+.course-val { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; }
+.course-val .cur { font-size: 14px; font-weight: 800; }
+.course-ceil { font-size: 10px; color: var(--gray-2); font-weight: 600; white-space: nowrap; }
 
 @media (max-width: 720px) {
   .bk-col { min-width: 134px; }
   .bk-team { font-size: 11.5px; }
-  .course-row { grid-template-columns: 96px 1fr 56px; }
-  .course::before { left: calc(106px + (100% - 106px - 56px) * var(--leader) / 100); }
+  .course-row { grid-template-columns: 88px 1fr 68px; }
   .course-nom { font-size: 11px; }
 }
 

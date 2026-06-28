@@ -618,10 +618,10 @@ function renderBracketCourse() {
         <div class="course-bar-solid" style="width:${curPct}%"></div>
         <div class="course-bar-ghost" style="width:${gainPct}%"></div>
       </div>
-      <div class="course-val">${r.current}<span class="course-ceil"> → ${r.ceiling}</span></div>
+      <div class="course-val"><span class="cur">${r.current}</span><span class="course-ceil">max ${r.ceiling}</span></div>
     </div>`;
   }).join('');
-  $('#bracket-course-container').innerHTML = `<div class="course" style="--leader:${leaderPct}%">${bars}</div>`;
+  $('#bracket-course-container').innerHTML = `<div class="course" style="--leaderpct:${leaderPct.toFixed(2)}%">${bars}</div>`;
 }
 
 function renderBracketParticipantSummary(slug, b) {
