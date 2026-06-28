@@ -599,3 +599,46 @@ select#select-bracket-participant { font-family: 'Manrope', sans-serif; font-siz
   .course::before { left: calc(106px + (100% - 106px - 56px) * var(--leader) / 100); }
   .course-nom { font-size: 11px; }
 }
+
+/* ----- Bracket miroir (façon Excel) ----- */
+.bkm { display: flex; align-items: stretch; justify-content: center; min-width: min-content; padding: 4px 2px 12px; }
+.bkm-half { display: flex; align-items: stretch; }
+.bkm-round { display: flex; flex-direction: column; width: 138px; }
+.bkm-half.left .bkm-round + .bkm-round,
+.bkm-half.right .bkm-round + .bkm-round { margin-left: 14px; }
+.bkm-rlabel { flex: 0 0 24px; height: 24px; box-sizing: border-box; font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.5px; color: #fff; background: var(--black); border-radius: 5px; display: flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; margin-bottom: 6px; }
+.bkm-rpts { font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700; color: var(--yellow); }
+.bkm-matches { flex: 1 1 auto; display: flex; flex-direction: column; }
+.bkm-match { flex: 1 1 0; min-height: 70px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+.bkm-pair { display: flex; flex-direction: column; gap: 3px; background: white; border-radius: 7px; box-shadow: var(--shadow-sm); padding: 4px; margin: 6px 0; }
+
+.bkm-half.left .bkm-round:not(:last-child) .bkm-match::after { content: ''; position: absolute; left: 100%; top: 50%; width: 14px; height: 2px; background: #BDBDBD; }
+.bkm-half.left .bkm-round:not(:last-child) .bkm-match:nth-child(odd)::before { content: ''; position: absolute; left: calc(100% + 14px); top: 50%; width: 2px; height: 100%; background: #BDBDBD; }
+.bkm-half.left .bkm-round:last-child .bkm-match::after { content: ''; position: absolute; left: 100%; top: 50%; width: 14px; height: 2px; background: #BDBDBD; }
+.bkm-half.right .bkm-round:not(:first-child) .bkm-match::after { content: ''; position: absolute; right: 100%; top: 50%; width: 14px; height: 2px; background: #BDBDBD; }
+.bkm-half.right .bkm-round:not(:first-child) .bkm-match:nth-child(odd)::before { content: ''; position: absolute; right: calc(100% + 14px); top: 50%; width: 2px; height: 100%; background: #BDBDBD; }
+.bkm-half.right .bkm-round:first-child .bkm-match::after { content: ''; position: absolute; right: 100%; top: 50%; width: 14px; height: 2px; background: #BDBDBD; }
+
+.bkm-center { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 18px; padding: 30px 14px 0; min-width: 152px; }
+.bkm-final-block, .bkm-third-block { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.bkm-rlabel.center { background: var(--red); }
+.bkm-rlabel.center.small { background: var(--black); }
+.bkm-champion { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.5px; padding: 10px 14px; border-radius: 8px; background: var(--gray-5); border: 2px solid var(--gray-1); text-align: center; min-width: 132px; }
+.bkm-champion.advanced, .bkm-champion.pick-ok { background: linear-gradient(135deg, #FAE042, #D4BE2F); border-color: var(--yellow-dim); color: var(--black); }
+.bkm-champion.advanced-neutral { background: var(--black); color: var(--yellow); border-color: var(--black); }
+.bkm-champion.pick-ko { background: var(--red-bg); border-color: var(--red); color: #8A1018; }
+.bkm-champion.pick-pending { background: var(--orange-bg); border-color: var(--yellow-dim); color: #7A5B00; }
+.bkm-third { font-size: 13px; font-weight: 700; padding: 7px 12px; border-radius: 8px; background: var(--gray-5); border: 2px solid var(--gray-1); text-align: center; min-width: 120px; }
+.bkm-third.advanced, .bkm-third.pick-ok { background: var(--green-bg); border-color: var(--green); color: #0B5D24; }
+.bkm-third.pick-ko { background: var(--red-bg); border-color: var(--red); color: #8A1018; }
+.bkm-third.pick-pending { background: var(--orange-bg); border-color: var(--yellow-dim); color: #7A5B00; }
+
+@media (max-width: 720px) {
+  .bkm-round { width: 112px; }
+  .bkm-half.left .bkm-round + .bkm-round,
+  .bkm-half.right .bkm-round + .bkm-round { margin-left: 12px; }
+  .bkm-half.left .bkm-round:not(:last-child) .bkm-match:nth-child(odd)::before { left: calc(100% + 12px); }
+  .bkm-half.right .bkm-round:not(:first-child) .bkm-match:nth-child(odd)::before { right: calc(100% + 12px); }
+  .bkm-half .bkm-match::after { width: 12px !important; }
+  .bkm-champion { font-size: 16px; min-width: 110px; }
+}

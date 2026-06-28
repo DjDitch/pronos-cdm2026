@@ -476,14 +476,31 @@ function bracketRealSets() {
            started: huit.size > 0, tournamentOver: !!champion };
 }
 
-// Définition des tours pour le rendu en colonnes
-function bracketRounds(b) {
+// Construit les tours d'une moitié (gauche ou droite) du bracket miroir.
+// Chaque match = { a, b, w } (équipe haute, basse, vainqueur prédit).
+function bkmHalfRounds(b, side) {
+  const r32 = b.r32 || [], huit = b.huitiemes || [], quarts = b.quarts || [],
+        demis = b.demis || [], fin = b.finalistes || [];
+  const mk = (entrants, winners) => {
+    const out = [];
+    for (let m = 0; m < Math.floor(entrants.length / 2); m++)
+      out.push({ a: entrants[2 * m], b: entrants[2 * m + 1], w: winners[m] });
+    return out;
+  };
+  if (side === 'left') {
+    return [
+      { label: '16<sup>es</sup>', pts: 2, set: 'huit',   matches: mk(r32.slice(0, 16), huit.slice(0, 8)) },
+      { label: '8<sup>es</sup>',  pts: 3, set: 'quarts', matches: mk(huit.slice(0, 8), quarts.slice(0, 4)) },
+      { label: 'Quarts',          pts: 4, set: 'demis',  matches: mk(quarts.slice(0, 4), demis.slice(0, 2)) },
+      { label: 'Demi',            pts: 5, set: 'fin',    matches: mk(demis.slice(0, 2), [fin[0]]) },
+    ];
+  }
+  // côté droit : ordre DOM du centre vers l'extérieur
   return [
-    { name: '16<sup>es</sup>', entrants: b.r32 || [],        winners: b.huitiemes || [],  pts: 2, set: 'huit' },
-    { name: '8<sup>es</sup>',  entrants: b.huitiemes || [],   winners: b.quarts || [],     pts: 3, set: 'quarts' },
-    { name: 'Quarts',          entrants: b.quarts || [],      winners: b.demis || [],      pts: 4, set: 'demis' },
-    { name: 'Demis',           entrants: b.demis || [],       winners: b.finalistes || [], pts: 5, set: 'fin' },
-    { name: 'Finale',          entrants: b.finalistes || [],  winners: [b.champion],       pts: 7, set: 'champion' },
+    { label: 'Demi',            pts: 5, set: 'fin',    matches: mk(demis.slice(2), [fin[1]]) },
+    { label: 'Quarts',          pts: 4, set: 'demis',  matches: mk(quarts.slice(4), demis.slice(2)) },
+    { label: '8<sup>es</sup>',  pts: 3, set: 'quarts', matches: mk(huit.slice(8), quarts.slice(4)) },
+    { label: '16<sup>es</sup>', pts: 2, set: 'huit',   matches: mk(r32.slice(16), huit.slice(8)) },
   ];
 }
 
@@ -514,10 +531,10 @@ function bkTeamChip(name, cls) {
   return `<span class="bk-team ${cls || ''}">${escapeHtml(name)}</span>`;
 }
 
-function bkMatch(a, b, winner, round, opts) {
+function bkmMatch(mt, round, opts) {
   const sets = opts.sets;
-  const aT = a ? stripDrapeau(a) : null, bT = b ? stripDrapeau(b) : null;
-  const wT = winner ? stripDrapeau(winner) : null;
+  const aT = mt.a ? stripDrapeau(mt.a) : null, bT = mt.b ? stripDrapeau(mt.b) : null;
+  const wT = mt.w ? stripDrapeau(mt.w) : null;
   let aCls = '', bCls = '';
   if (opts.mode === 'real') {
     if (wT) {
@@ -526,24 +543,24 @@ function bkMatch(a, b, winner, round, opts) {
     }
   } else {
     const ri = roundRealInfo(round, sets);
-    const wcls = opts.compare ? classifyPick(winner, ri.set, ri.decided, sets) : 'advanced-neutral';
+    const wcls = opts.compare ? classifyPick(mt.w, ri.set, ri.decided, sets) : 'advanced-neutral';
     if (aT && wT && aT === wT) { aCls = wcls; bCls = 'muted'; }
     else if (bT && wT && bT === wT) { bCls = wcls; aCls = 'muted'; }
   }
-  return `<div class="bk-match"><div class="bk-pair">${bkTeamChip(a, aCls)}${bkTeamChip(b, bCls)}</div></div>`;
+  return `<div class="bkm-match"><div class="bkm-pair">${bkTeamChip(mt.a, aCls)}${bkTeamChip(mt.b, bCls)}</div></div>`;
 }
 
-function bkColumn(round, opts) {
-  const E = round.entrants, W = round.winners;
-  const n = Math.floor(E.length / 2);
-  let cards = '';
-  for (let m = 0; m < n; m++) cards += bkMatch(E[2 * m], E[2 * m + 1], W[m], round, opts);
-  return `<div class="bk-col"><div class="bk-col-head">${round.name}<span class="bk-col-pts">+${round.pts}</span></div>${cards}</div>`;
+function bkmRoundCol(round, opts) {
+  const matches = round.matches.map(mt => bkmMatch(mt, round, opts)).join('');
+  return `<div class="bkm-round">
+    <div class="bkm-rlabel">${round.label}<span class="bkm-rpts">+${round.pts}</span></div>
+    <div class="bkm-matches">${matches}</div>
+  </div>`;
 }
 
-function bkFinalsColumn(b, opts) {
+function bkmCenter(b, opts) {
   const sets = opts.sets;
-  let champCls = '', troCls = '';
+  let champCls, troCls;
   if (opts.mode === 'real') {
     champCls = b.champion ? 'advanced' : '';
     troCls = b.troisieme ? 'advanced' : '';
@@ -551,17 +568,26 @@ function bkFinalsColumn(b, opts) {
     champCls = classifyPick(b.champion, sets.champion ? new Set([sets.champion]) : new Set(), sets.champion != null, sets);
     troCls = classifyPick(b.troisieme, sets.troisieme ? new Set([sets.troisieme]) : new Set(), sets.troisieme != null, sets);
   } else { champCls = 'advanced-neutral'; troCls = 'advanced-neutral'; }
-  return `<div class="bk-col bk-col-final">
-    <div class="bk-col-head">Vainqueur<span class="bk-col-pts">+7</span></div>
-    <div class="bk-champion ${champCls}">🏆 ${b.champion ? escapeHtml(b.champion) : '—'}</div>
-    <div class="bk-col-head bk-third-head">3<sup>e</sup> place<span class="bk-col-pts">+6</span></div>
-    <div class="bk-third ${troCls}">🥉 ${b.troisieme ? escapeHtml(b.troisieme) : '—'}</div>
+  return `<div class="bkm-center">
+    <div class="bkm-final-block">
+      <div class="bkm-rlabel center">Finale<span class="bkm-rpts">+7</span></div>
+      <div class="bkm-champion ${champCls}">🏆 ${b.champion ? escapeHtml(b.champion) : '—'}</div>
+    </div>
+    <div class="bkm-third-block">
+      <div class="bkm-rlabel center small">3<sup>e</sup> place<span class="bkm-rpts">+6</span></div>
+      <div class="bkm-third ${troCls}">🥉 ${b.troisieme ? escapeHtml(b.troisieme) : '—'}</div>
+    </div>
   </div>`;
 }
 
 function renderBracketTree(b, opts) {
-  const cols = bracketRounds(b).map(r => bkColumn(r, opts)).join('') + bkFinalsColumn(b, opts);
-  return `<div class="bk-tree">${cols}</div>`;
+  const left = bkmHalfRounds(b, 'left').map(r => bkmRoundCol(r, opts)).join('');
+  const right = bkmHalfRounds(b, 'right').map(r => bkmRoundCol(r, opts)).join('');
+  return `<div class="bkm">
+    <div class="bkm-half left">${left}</div>
+    ${bkmCenter(b, opts)}
+    <div class="bkm-half right">${right}</div>
+  </div>`;
 }
 
 function updateBracketCountdown() {
