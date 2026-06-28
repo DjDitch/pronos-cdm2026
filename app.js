@@ -93,6 +93,7 @@ async function init() {
   $$('.tab').forEach(t => t.addEventListener('click', () => setTab(t.dataset.tab)));
   renderClassement();
   renderTournoi();
+  renderBracket();
   renderPronos();
   renderBonus();
 }
@@ -118,6 +119,7 @@ function setTab(name) {
   djditchOnTabChange(name);
   if (name === 'tournoi') playTripOnce();
   if (name === 'pronos' && _applyPronosMode) setTimeout(_applyPronosMode, 0);
+  if (name === 'bracket') renderBracket();
 }
 
 function renderClassement() {
@@ -446,6 +448,218 @@ function renderBonus() {
     return `<div class="bonus-card"><div class="bonus-card-title">${meta.icon} ${meta.label}</div>${reelHtml}${pronosHtml}</div>`;
   }).join('');
   $('#bonus-container').innerHTML = `<div class="bonus-cards">${cards}</div>`;
+}
+
+/* ============================================================================
+   PHASE FINALE — BRACKET
+   ============================================================================ */
+
+const REVEAL_BRACKET_KEY = 'reveal_bracket_at';
+
+function isBracketRevealed() {
+  const at = DATA.meta[REVEAL_BRACKET_KEY];
+  if (!at) return true;
+  return new Date() >= new Date(at);
+}
+
+// Ensembles réels par tour (noms normalisés) + état du tournoi
+function bracketRealSets() {
+  const b = DATA.concours.bracket;
+  const reel = b && b.reel;
+  const S = (name) => new Set(((reel && reel[name]) || []).filter(Boolean).map(stripDrapeau));
+  const huit = S('huitiemes'), quarts = S('quarts'), demis = S('demis'), fin = S('finalistes');
+  const champion = reel && reel.champion ? stripDrapeau(reel.champion) : null;
+  const troisieme = reel && reel.troisieme ? stripDrapeau(reel.troisieme) : null;
+  const aliveArr = (reel && reel.alive ? reel.alive : []).map(stripDrapeau);
+  const aliveSet = aliveArr.length ? new Set(aliveArr) : null; // null => personne d'éliminé connu
+  return { huit, quarts, demis, fin, champion, troisieme, aliveSet,
+           started: huit.size > 0, tournamentOver: !!champion };
+}
+
+// Définition des tours pour le rendu en colonnes
+function bracketRounds(b) {
+  return [
+    { name: '16<sup>es</sup>', entrants: b.r32 || [],        winners: b.huitiemes || [],  pts: 2, set: 'huit' },
+    { name: '8<sup>es</sup>',  entrants: b.huitiemes || [],   winners: b.quarts || [],     pts: 3, set: 'quarts' },
+    { name: 'Quarts',          entrants: b.quarts || [],      winners: b.demis || [],      pts: 4, set: 'demis' },
+    { name: 'Demis',           entrants: b.demis || [],       winners: b.finalistes || [], pts: 5, set: 'fin' },
+    { name: 'Finale',          entrants: b.finalistes || [],  winners: [b.champion],       pts: 7, set: 'champion' },
+  ];
+}
+
+function roundRealInfo(round, sets) {
+  switch (round.set) {
+    case 'huit':   return { set: sets.huit,   decided: sets.huit.size > 0 };
+    case 'quarts': return { set: sets.quarts, decided: sets.quarts.size > 0 };
+    case 'demis':  return { set: sets.demis,  decided: sets.demis.size > 0 };
+    case 'fin':    return { set: sets.fin,    decided: sets.fin.size > 0 };
+    case 'champion': return { set: sets.champion ? new Set([sets.champion]) : new Set(),
+                              decided: sets.champion != null };
+  }
+  return { set: new Set(), decided: false };
+}
+
+// Classe CSS d'un pronostic comparé à la réalité
+function classifyPick(team, realSet, decided, sets) {
+  const t = team ? stripDrapeau(team) : '';
+  if (!t) return '';
+  if (decided) return realSet.has(t) ? 'pick-ok' : 'pick-ko';
+  if (sets.tournamentOver) return 'pick-ko';
+  if (sets.aliveSet === null) return 'pick-pending';
+  return sets.aliveSet.has(t) ? 'pick-pending' : 'pick-ko';
+}
+
+function bkTeamChip(name, cls) {
+  if (!name) return `<span class="bk-team empty ${cls || ''}">—</span>`;
+  return `<span class="bk-team ${cls || ''}">${escapeHtml(name)}</span>`;
+}
+
+function bkMatch(a, b, winner, round, opts) {
+  const sets = opts.sets;
+  const aT = a ? stripDrapeau(a) : null, bT = b ? stripDrapeau(b) : null;
+  const wT = winner ? stripDrapeau(winner) : null;
+  let aCls = '', bCls = '';
+  if (opts.mode === 'real') {
+    if (wT) {
+      if (aT === wT) { aCls = 'advanced'; bCls = 'eliminated'; }
+      else if (bT === wT) { bCls = 'advanced'; aCls = 'eliminated'; }
+    }
+  } else {
+    const ri = roundRealInfo(round, sets);
+    const wcls = opts.compare ? classifyPick(winner, ri.set, ri.decided, sets) : 'advanced-neutral';
+    if (aT && wT && aT === wT) { aCls = wcls; bCls = 'muted'; }
+    else if (bT && wT && bT === wT) { bCls = wcls; aCls = 'muted'; }
+  }
+  return `<div class="bk-match"><div class="bk-pair">${bkTeamChip(a, aCls)}${bkTeamChip(b, bCls)}</div></div>`;
+}
+
+function bkColumn(round, opts) {
+  const E = round.entrants, W = round.winners;
+  const n = Math.floor(E.length / 2);
+  let cards = '';
+  for (let m = 0; m < n; m++) cards += bkMatch(E[2 * m], E[2 * m + 1], W[m], round, opts);
+  return `<div class="bk-col"><div class="bk-col-head">${round.name}<span class="bk-col-pts">+${round.pts}</span></div>${cards}</div>`;
+}
+
+function bkFinalsColumn(b, opts) {
+  const sets = opts.sets;
+  let champCls = '', troCls = '';
+  if (opts.mode === 'real') {
+    champCls = b.champion ? 'advanced' : '';
+    troCls = b.troisieme ? 'advanced' : '';
+  } else if (opts.compare) {
+    champCls = classifyPick(b.champion, sets.champion ? new Set([sets.champion]) : new Set(), sets.champion != null, sets);
+    troCls = classifyPick(b.troisieme, sets.troisieme ? new Set([sets.troisieme]) : new Set(), sets.troisieme != null, sets);
+  } else { champCls = 'advanced-neutral'; troCls = 'advanced-neutral'; }
+  return `<div class="bk-col bk-col-final">
+    <div class="bk-col-head">Vainqueur<span class="bk-col-pts">+7</span></div>
+    <div class="bk-champion ${champCls}">🏆 ${b.champion ? escapeHtml(b.champion) : '—'}</div>
+    <div class="bk-col-head bk-third-head">3<sup>e</sup> place<span class="bk-col-pts">+6</span></div>
+    <div class="bk-third ${troCls}">🥉 ${b.troisieme ? escapeHtml(b.troisieme) : '—'}</div>
+  </div>`;
+}
+
+function renderBracketTree(b, opts) {
+  const cols = bracketRounds(b).map(r => bkColumn(r, opts)).join('') + bkFinalsColumn(b, opts);
+  return `<div class="bk-tree">${cols}</div>`;
+}
+
+function updateBracketCountdown() {
+  const at = DATA.meta[REVEAL_BRACKET_KEY];
+  const el = $('#bracket-countdown');
+  if (!at || !el) return;
+  const diff = new Date(at) - new Date();
+  if (diff <= 0) { el.textContent = 'Révélation imminente — recharge la page. ⚽'; return; }
+  const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000);
+  el.textContent = `Révélation dans ${h}h${String(m).padStart(2, '0')}. ⚽`;
+}
+
+function renderBracketCourse() {
+  const rows = DATA.concours.participants.map(p => {
+    const gain = Math.max(0, (p.phase_finale_max || 0) - (p.phase_finale || 0));
+    return { nom: p.nom, current: p.total, gain, ceiling: p.total + gain };
+  });
+  const maxCeil = Math.max(...rows.map(r => r.ceiling), 1);
+  const leader = Math.max(...rows.map(r => r.current));
+  const leaderPct = (leader / maxCeil) * 100;
+  const bars = rows.map((r, i) => {
+    const curPct = (r.current / maxCeil) * 100;
+    const gainPct = (r.gain / maxCeil) * 100;
+    const enPiste = r.ceiling >= leader;
+    return `<div class="course-row ${enPiste ? 'en-piste' : 'out'}">
+      <div class="course-nom">${i + 1}. ${escapeHtml(r.nom)}</div>
+      <div class="course-bar-wrap">
+        <div class="course-bar-solid" style="width:${curPct}%"></div>
+        <div class="course-bar-ghost" style="width:${gainPct}%"></div>
+      </div>
+      <div class="course-val">${r.current}<span class="course-ceil"> → ${r.ceiling}</span></div>
+    </div>`;
+  }).join('');
+  $('#bracket-course-container').innerHTML = `<div class="course" style="--leader:${leaderPct}%">${bars}</div>`;
+}
+
+function renderBracketParticipantSummary(slug, b) {
+  $('#bracket-participant-summary').innerHTML = `<div class="bk-summary">
+    <span class="bk-sum-item"><span class="bk-sum-label">Points phase finale</span><span class="bk-sum-val">${b.points || 0}</span></span>
+    <span class="bk-sum-item"><span class="bk-sum-label">Plafond atteignable</span><span class="bk-sum-val">${b.points_max || 0}</span></span>
+    <span class="bk-sum-item"><span class="bk-sum-label">Champion pronostiqué</span><span class="bk-sum-val">${b.champion ? escapeHtml(b.champion) : '—'}</span></span>
+  </div>`;
+}
+
+function setupBracketParticipant(sets) {
+  const sel = $('#select-bracket-participant');
+  const compareEl = $('#toggle-bracket-compare');
+  const pronos = (DATA.concours.bracket && DATA.concours.bracket.pronostics) || {};
+  const parts = DATA.concours.participants.filter(p => pronos[p.slug]);
+  if (parts.length === 0) {
+    sel.innerHTML = '';
+    $('#bracket-participant-summary').innerHTML = '';
+    $('#bracket-participant-container').innerHTML = `<p class="bracket-empty">Aucun bracket reçu pour l'instant.</p>`;
+    return;
+  }
+  sel.innerHTML = parts.map(p => `<option value="${escapeHtml(p.slug)}">${escapeHtml(p.nom)}</option>`).join('');
+  function render() {
+    const b = pronos[sel.value];
+    if (!b) return;
+    renderBracketParticipantSummary(sel.value, b);
+    $('#bracket-participant-container').innerHTML = renderBracketTree(b, { mode: 'prono', compare: compareEl.checked, sets });
+  }
+  sel.onchange = render;
+  compareEl.onchange = render;
+  render();
+}
+
+function renderBracket() {
+  const b = DATA.concours.bracket;
+  const reelContainer = $('#bracket-reel-container');
+  const hint = $('#bracket-reel-hint');
+  const locked = $('#bracket-locked');
+  const revealed = $('#bracket-revealed');
+  if (!b) {
+    reelContainer.innerHTML = `<p class="bracket-empty">La phase à élimination directe n'a pas encore commencé. Le bracket réel se remplira au fil des matchs.</p>`;
+    if (hint) hint.textContent = '';
+    locked.hidden = true; revealed.hidden = true;
+    return;
+  }
+  const sets = bracketRealSets();
+  reelContainer.innerHTML = b.reel
+    ? renderBracketTree(b.reel, { mode: 'real', sets })
+    : `<p class="bracket-empty">Bracket réel non disponible.</p>`;
+  if (hint) {
+    hint.textContent = sets.tournamentOver
+      ? 'Tournoi terminé.'
+      : (sets.started
+          ? "Les équipes qualifiées s'allument au fil des tours ; les éliminées se grisent."
+          : 'En attente du coup d’envoi des 16es — les 32 équipes sont en lice.');
+  }
+  if (!isBracketRevealed()) {
+    locked.hidden = false; revealed.hidden = true;
+    updateBracketCountdown();
+    return;
+  }
+  locked.hidden = true; revealed.hidden = false;
+  renderBracketCourse();
+  setupBracketParticipant(sets);
 }
 
 const DJDITCH_REPLIQUES = {

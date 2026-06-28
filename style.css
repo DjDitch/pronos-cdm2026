@@ -529,3 +529,73 @@ select#select-match { font-family: 'Manrope', sans-serif; font-size: 15px; font-
 @media (min-width: 721px) {
   .classement-mobile { display: none; }
 }
+
+/* ============================================================================
+   PHASE FINALE — BRACKET
+   ============================================================================ */
+.bracket-hint { font-size: 13px; color: var(--gray-2); margin: 0 0 14px; max-width: 640px; }
+.bracket-empty { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 32px; text-align: center; color: var(--gray-2); }
+
+select#select-bracket-participant { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 600; padding: 8px 12px; border: 2px solid var(--black); border-radius: var(--radius); background: var(--yellow); color: var(--black); cursor: pointer; max-width: 340px; }
+
+.bracket-scroll { overflow-x: auto; padding-bottom: 12px; -webkit-overflow-scrolling: touch; }
+.bk-tree { display: flex; gap: 10px; align-items: flex-start; min-width: min-content; }
+.bk-col { display: flex; flex-direction: column; gap: 8px; min-width: 150px; }
+.bk-col-head { font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 0.5px; color: var(--white); background: var(--black); padding: 5px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; text-transform: uppercase; }
+.bk-col-pts { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; color: var(--yellow); background: rgba(250,224,66,0.14); padding: 1px 6px; border-radius: 10px; margin-left: 6px; }
+
+.bk-match { background: white; border-radius: 8px; box-shadow: var(--shadow-sm); padding: 4px; }
+.bk-pair { display: flex; flex-direction: column; gap: 3px; }
+.bk-team { font-size: 12.5px; font-weight: 600; padding: 5px 8px; border-radius: 5px; background: var(--gray-5); color: var(--black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-left: 3px solid transparent; }
+.bk-team.empty { color: var(--gray-3); font-style: italic; font-weight: 500; }
+
+/* Bracket réel */
+.bk-team.advanced { background: var(--green-bg); border-left-color: var(--green); color: #0B5D24; font-weight: 800; }
+.bk-team.eliminated { background: var(--gray-5); color: var(--gray-3); text-decoration: line-through; opacity: 0.75; }
+
+/* Bracket participant */
+.bk-team.advanced-neutral { background: #FFF8D6; border-left-color: var(--yellow-dim); font-weight: 800; }
+.bk-team.muted { background: var(--gray-5); color: var(--gray-2); }
+.bk-team.pick-ok { background: var(--green-bg); border-left-color: var(--green); color: #0B5D24; font-weight: 800; }
+.bk-team.pick-ko { background: var(--red-bg); border-left-color: var(--red); color: #8A1018; font-weight: 700; }
+.bk-team.pick-pending { background: var(--orange-bg); border-left-color: var(--yellow-dim); color: #7A5B00; font-weight: 700; }
+
+/* Colonne finale / champion / 3e */
+.bk-col-final { justify-content: flex-start; }
+.bk-third-head { margin-top: 16px; }
+.bk-champion { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.5px; padding: 10px 12px; border-radius: 8px; background: var(--gray-5); border: 2px solid var(--gray-1); text-align: center; }
+.bk-champion.advanced, .bk-champion.pick-ok { background: linear-gradient(135deg, #FAE042, #D4BE2F); border-color: var(--yellow-dim); color: var(--black); }
+.bk-champion.advanced-neutral { background: var(--black); color: var(--yellow); border-color: var(--black); }
+.bk-champion.pick-ko { background: var(--red-bg); border-color: var(--red); color: #8A1018; }
+.bk-champion.pick-pending { background: var(--orange-bg); border-color: var(--yellow-dim); color: #7A5B00; }
+.bk-third { font-size: 13px; font-weight: 700; padding: 8px 12px; border-radius: 8px; background: var(--gray-5); border: 2px solid var(--gray-1); text-align: center; }
+.bk-third.advanced, .bk-third.pick-ok { background: var(--green-bg); border-color: var(--green); color: #0B5D24; }
+.bk-third.pick-ko { background: var(--red-bg); border-color: var(--red); color: #8A1018; }
+.bk-third.pick-pending { background: var(--orange-bg); border-color: var(--yellow-dim); color: #7A5B00; }
+
+/* Résumé participant */
+.bk-summary { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.bk-sum-item { display: flex; flex-direction: column; gap: 2px; background: white; border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 10px 16px; min-width: 130px; }
+.bk-sum-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-2); font-weight: 600; }
+.bk-sum-val { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--black); }
+
+/* Course aux points */
+.course { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 16px 18px; position: relative; }
+.course::before { content: ''; position: absolute; top: 12px; bottom: 12px; left: calc(170px + (100% - 170px - 70px) * var(--leader) / 100); width: 2px; background: repeating-linear-gradient(var(--red), var(--red) 4px, transparent 4px, transparent 8px); z-index: 2; }
+.course-row { display: grid; grid-template-columns: 160px 1fr 64px; align-items: center; gap: 10px; padding: 5px 0; }
+.course-nom { font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.course-bar-wrap { display: flex; height: 16px; background: var(--gray-5); border-radius: 8px; overflow: hidden; }
+.course-bar-solid { background: var(--black); height: 100%; }
+.course-bar-ghost { background: repeating-linear-gradient(45deg, var(--gray-4), var(--gray-4) 5px, #EDEDED 5px, #EDEDED 10px); height: 100%; }
+.course-row.en-piste .course-bar-solid { background: var(--red); }
+.course-row.out { opacity: 0.55; }
+.course-val { font-size: 13px; font-weight: 800; text-align: right; }
+.course-ceil { font-size: 11px; color: var(--gray-2); font-weight: 600; }
+
+@media (max-width: 720px) {
+  .bk-col { min-width: 134px; }
+  .bk-team { font-size: 11.5px; }
+  .course-row { grid-template-columns: 96px 1fr 56px; }
+  .course::before { left: calc(106px + (100% - 106px - 56px) * var(--leader) / 100); }
+  .course-nom { font-size: 11px; }
+}

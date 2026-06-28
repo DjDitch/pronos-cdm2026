@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=10">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E30613'/%3E%3Ctext x='16' y='23' font-size='22' text-anchor='middle' fill='%23FAE042' font-family='Arial' font-weight='900'%3E⚽%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -67,6 +67,7 @@
     <nav class="tabs" role="tablist">
       <button class="tab active" data-tab="classement" role="tab">🏆 Classement</button>
       <button class="tab"        data-tab="tournoi"    role="tab">⚽ Tournoi</button>
+      <button class="tab"        data-tab="bracket"    role="tab">🔥 Phase finale</button>
       <button class="tab"        data-tab="pronos"     role="tab">👤 Pronos</button>
       <button class="tab"        data-tab="bonus"      role="tab">🎯 Bonus</button>
     </nav>
@@ -92,6 +93,49 @@
       <div id="groupes-container" class="groupes-grid"></div>
       <h3 class="section-title">Tous les matches</h3>
       <div id="matches-container"></div>
+    </section>
+
+    <section id="vue-bracket" class="vue">
+      <header class="vue-header">
+        <h2>Phase à élimination directe</h2>
+        <p class="vue-sub">16<sup>es</sup> → finale · barème par équipe : 1/8 <strong>+2</strong>, quarts <strong>+3</strong>, demis <strong>+4</strong>, finale <strong>+5</strong>, 3<sup>e</sup> <strong>+6</strong>, vainqueur <strong>+7</strong> · bracket parfait = <strong>95</strong> pts</p>
+      </header>
+
+      <h3 class="section-title">🏆 Le bracket réel</h3>
+      <p class="bracket-hint" id="bracket-reel-hint"></p>
+      <div id="bracket-reel-container" class="bracket-scroll"></div>
+
+      <div id="bracket-locked" class="locked-screen" hidden>
+        <div class="lock-icon">🔒</div>
+        <h2>Les pronostics bracket restent confidentiels</h2>
+        <p class="lock-text">
+          Les brackets des participants seront révélés au <strong>coup d'envoi du 1<sup>er</sup> 16<sup>e</sup> de finale</strong>
+          (Afrique du Sud – Canada), le <strong>28 juin 2026 à 21h00</strong> (heure belge).
+        </p>
+        <p class="lock-text-small" id="bracket-countdown">Patience, ça arrive. ⚽</p>
+      </div>
+
+      <div id="bracket-revealed" hidden>
+        <h3 class="section-title">🏁 La course aux points</h3>
+        <p class="bracket-hint">Barre pleine = points actuels · barre claire = plafond encore atteignable selon les équipes encore en vie. La ligne verticale marque le total du leader.</p>
+        <div id="bracket-course-container"></div>
+
+        <h3 class="section-title">👤 Bracket par participant</h3>
+        <div class="controls">
+          <div class="control">
+            <label for="select-bracket-participant">Participant</label>
+            <select id="select-bracket-participant"></select>
+          </div>
+          <div class="control">
+            <label class="toggle-label">
+              <input type="checkbox" id="toggle-bracket-compare" checked>
+              <span>Comparer avec les résultats réels</span>
+            </label>
+          </div>
+        </div>
+        <div id="bracket-participant-summary"></div>
+        <div id="bracket-participant-container" class="bracket-scroll"></div>
+      </div>
     </section>
 
     <section id="vue-pronos" class="vue">
@@ -162,9 +206,9 @@
       Concours organisé par <strong>Didier</strong> ·
       <a href="#" id="link-reglement">Règlement</a>
     </p>
-    <p class="small">Que la meilleure pronostiqueuse, le meilleur pronostiqueur gagne ! 🍻 · <span style="opacity:0.4">v9</span></p>
+    <p class="small">Que la meilleure pronostiqueuse, le meilleur pronostiqueur gagne ! 🍻 · <span style="opacity:0.4">v10</span></p>
   </footer>
 
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>
