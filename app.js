@@ -354,6 +354,14 @@ function renderPronoMatchRow(pm, reel, compare) {
   return `<div class="pronos-match-row ${resultClass} ${showReelClass}"><span class="match-n">#${pm.n}</span><span class="match-home" style="text-align:right">${escapeHtml(reel.home)}</span><span class="pm-score-prono">${pm.score_home}-${pm.score_away}</span><span class="pm-vs">vs réel →</span>${reelScoreHtml}<span class="match-away">${escapeHtml(reel.away)}</span></div>`;
 }
 
+function stripDrapeau(nom) {
+  if (!nom) return '';
+  const s = nom.trim();
+  let i = 0;
+  while (i < s.length && !/[\p{L}\p{N}]/u.test(s[i])) i++;
+  return s.slice(i).trim();
+}
+
 function renderPronosClassements(prono, compare) {
   const groupesReels = {};
   DATA.tournoi.groupes.forEach(g => { groupesReels[g.id] = g.equipes; });
@@ -365,7 +373,7 @@ function renderPronosClassements(prono, compare) {
     const groupTermine = reelLignes.every(l => l.j===3);
     const rows = pronoTeams.map((team,i) => {
       let rowClass='';
-      if (compare && groupTermine && i<2) { if (team===reelTop2[i]) rowClass='bonne-place'; else if (reelTop2.includes(team)) rowClass='inversion'; }
+      if (compare && groupTermine && i<2) { const t=stripDrapeau(team); if (t===stripDrapeau(reelTop2[i])) rowClass='bonne-place'; else if (reelTop2.some(r=>stripDrapeau(r)===t)) rowClass='inversion'; }
       return `<tr class="${rowClass}"><td class="rang">${i+1}</td><td>${escapeHtml(team)}</td></tr>`;
     }).join('');
     return `<div class="prono-classement-card"><div class="groupe-head"><span>Groupe ${g_id}</span>${groupTermine?'<span class="badge-joues">Terminé</span>':''}</div><table class="prono-classement-table"><tbody>${rows}</tbody></table></div>`;
@@ -373,8 +381,8 @@ function renderPronosClassements(prono, compare) {
 }
 
 function renderPronos3es(prono, compare) {
-  const reels3es = new Set(DATA.tournoi.meilleurs_3es || []);
-  $('#pronos-3es-container').innerHTML = prono.meilleurs_3es.map(t => `<span class="pill ${compare&&reels3es.has(t)?'matched':''}">${escapeHtml(t)}</span>`).join('');
+  const reels3es = new Set((DATA.tournoi.meilleurs_3es || []).map(stripDrapeau));
+  $('#pronos-3es-container').innerHTML = prono.meilleurs_3es.map(t => `<span class="pill ${compare&&reels3es.has(stripDrapeau(t))?'matched':''}">${escapeHtml(t)}</span>`).join('');
 }
 
 const BONUS_LABELS = {
